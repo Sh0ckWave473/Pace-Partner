@@ -5,20 +5,30 @@ const app = express();
 app.use(express.static("public"));
 
 //Allows the app to access the body of an html element
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 //Sets the view engine to be ejs
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 
-app.use(logger);
+// app.use(logger);
 
-const signinRouter = require('./routes/signin');
+const loginRouter = require("./routes/login");
 
-app.use('/signin', signinRouter);
+app.use("/login", loginRouter);
 
-function logger(req, res, next) {
-    console.log(req.originalUrl);
-    next();
-}
+const profileRouter = require("./routes/profile");
 
-app.listen(3000);
+app.use("/profile", profileRouter);
+
+const registerRouter = require("./routes/register");
+
+app.use("/register", registerRouter);
+
+// function logger(req, res, next) {
+//     console.log(req.originalUrl);
+//     next();
+// }
+
+app.listen(3000, function () {
+    console.log("Server is running on port 3000");
+});

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/register" method="post">
+        <div style="color:red"><%=locals.error%></div>
+        <label>Email:
+            <input type="email" name="email" value=<%=locals.email%>>
+        </label>
+        <br/>
+        <label>Password:
+            <input type="password" name="password" id="password" value=<%=locals.password%>>
+            <button type="button" onclick="{
+                if (document.getElementById('password').type === 'password') {
+                    document.getElementById('password').type = 'text';
+                } else {
+                    document.getElementById('password').type = 'password';
+                }
+            }">👁</button>
+        <br/>
+        <label>Confirm Password:
+            <input type="password" name="confirmPassword" id="confirmPassword" value=<%=locals.confirm%>>
+            <button type="button" onclick="{
+                if (document.getElementById('confirmPassword').type === 'confirmPassword') {
+                    document.getElementById('confirmPassword').type = 'text';
+                } else {
+                    document.getElementById('confirmPassword').type = 'confirmPassword';
+                }
+            }">👁</button>
+        <br/>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
