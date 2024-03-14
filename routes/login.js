@@ -11,7 +11,7 @@ router
         let inputPassword = req.body.password;
         let user = inputEmail.split("@")[0];
         if (inputEmail === "justinih2003@gmail.com")
-            res.redirect(`/login/profile/${user}`);
+            res.redirect(`/profile/${user}`);
         else {
             res.render("login.ejs", {
                 email: `${inputEmail}`,

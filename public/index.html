@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    Static html
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- Reference the css file called index.css so that the css can be used here-->
+        <link rel="stylesheet" type="text/css" href="index.css" />
+    </head>
+    <body>
+        <!-- Create a landing page that has a sandwich sidebar button that contains all of the links to login, register, etc. -->
+        <button
+            id="sidebarButton"
+            onclick="{
+                if (document.getElementById('sidebar').style.display === 'none') {
+                    document.getElementById('sidebar').style.display = 'inline-block';
+                } else {
+                    document.getElementById('sidebar').style.display = 'none';
+                }
+            }"
+        >
+            ☰
+        </button>
+        <br />
+        <div id="sidebar" style="display: none">
+            <a href="/login">Login</a><br />
+            <a href="/register">Register</a><br />
+            <a href="/logout">Logout</a>
+        </div>
+        <div id="container">
+            <div id="centeredText">Placeholder</div>
+        </div>
+    </body>
 </html>

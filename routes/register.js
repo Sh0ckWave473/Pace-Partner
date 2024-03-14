@@ -12,7 +12,7 @@ router
         let confirmPassword = req.body.confirmPassword;
         let inputEmail = req.body.email;
         if (confirmPassword === inputPassword)
-            res.redirect(`/profile/${inputEmail.split("@")[0]}`);
+            res.send("Account created!<br/><a href='/login'>Back to Login</a>");
         else {
             res.render("register.ejs", {
                 email: `${inputEmail}`,
