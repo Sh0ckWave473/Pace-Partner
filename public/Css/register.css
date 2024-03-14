@@ -1,0 +1,53 @@
+body {
+    background-image: url('../imgs/runningbackground.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#container {
+    display: flex;
+    background-color: rgba(149, 0, 0, 0.5);
+    margin-inline: auto;
+    width: 50%;
+    height: 80vh;
+    flex-direction: column;
+}
+
+#container > form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 10%;
+}
+
+form > label {
+    position: relative;
+    max-width: fit-content;
+    margin-inline: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    color: white;
+}
+
+#button-container > a {
+    position: relative;
+    max-width: 40%;
+    margin-inline: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font: 1.5rem sans-serif;
+    color: white;
+    width: 50%;
+}
+
+#button-container > a:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+}
+
+#button-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 20px;
+}

@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./Css/login.css" />
 </head>
+
 <body>
-    <form action="/login" method="post">
-        <div style="color:red"><%=locals.error%></div>
-        <label>Email:
-            <input type="email" name="email" value=<%=locals.email%>>
-        </label>
-        <br/>
-        <label>Password:
-            <input type="password" name="password" id="password" value=<%=locals.password%>>
-            <button type="button" onclick="{
+    <div id="container">
+        <form action="/login" method="post">
+            <div style="color:red">
+                <%=locals.error%>
+            </div>
+            <label>Email:
+                <input type="email" name="email" value=<%=locals.email%>>
+            </label>
+            <label>Password:
+                <input type="password" name="password" id="password" value=<%=locals.password%>>
+                <button type="button" onclick="{
                 if (document.getElementById('password').type === 'password') {
                     document.getElementById('password').type = 'text';
                 } else {
                     document.getElementById('password').type = 'password';
                 }
-            }">👁</button>
-        <br/>
-        <button type="submit">Submit</button>
-    </form>
-    <br/>
-    <a href="/register">Click Here to Register</a>
-    <br/>
-    <a href="/forgotPassword">Forgot Password?</a>
-    <br/>
-    <a href="/">Home Page</a>
+                }">👁</button>
+            </label>
+            <br />
+            <button type="submit">Submit</button>
+        </form>
+        <br />
+        <div id="button-container">
+            <a href="/register">Register</a>
+            <br />
+            <a href="/forgotPassword">Forgot Password?</a>
+            <br />
+            <a href="/">Home Page</a>
+        </div>
+    </div>
 </body>
+
 </html>

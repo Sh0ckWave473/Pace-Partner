@@ -11,18 +11,48 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
 // app.use(logger);
-
-const loginRouter = require("./routes/login");
-
-app.use("/login", loginRouter);
-
 const profileRouter = require("./routes/profile");
 
 app.use("/profile", profileRouter);
 
-const registerRouter = require("./routes/register");
+app.route("/login")
+    .get((req, res) => {
+        res.render("login.ejs", { email: "example@gmail.com" });
+    })
+    .post((req, res) => {
+        let inputEmail = req.body.email;
+        let inputPassword = req.body.password;
+        let user = inputEmail.split("@")[0];
+        if (inputEmail === "justinih2003@gmail.com")
+            res.redirect(`/profile/${user}`);
+        else {
+            res.render("login.ejs", {
+                email: `${inputEmail}`,
+                password: `${inputPassword}`,
+                error: "Invalid email or password!",
+            });
+            console.log("error");
+        }
+    });
 
-app.use("/register", registerRouter);
+app.route("/register")
+    .get((req, res) => {
+        res.render("register.ejs", { email: "example@gmail.com" });
+    })
+    .post((req, res) => {
+        let inputPassword = req.body.password;
+        let confirmPassword = req.body.confirmPassword;
+        let inputEmail = req.body.email;
+        if (confirmPassword === inputPassword) res.redirect("/login");
+        else {
+            res.render("register.ejs", {
+                email: `${inputEmail}`,
+                password: `${inputPassword}`,
+                confirm: `${confirmPassword}`,
+                error: "Passwords do not match!",
+            });
+        }
+    });
 
 // function logger(req, res, next) {
 //     console.log(req.originalUrl);
