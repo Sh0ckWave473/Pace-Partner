@@ -6,14 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="./Css/register.css" />
+    <script src="./Js/register.js"></script>
 </head>
 
 <body>
     <div id="container">
-
+        <h1>Register</h1>
         <form action="/register" method="post">
-            <div style="color:red">
-                <%=locals.error%>
+            <div id='errorMsg' style="color:red; text-align: center; display: none">
+                Passwords do not match!
             </div>
             <label>Email:
                 <input type="email" name="email" value=<%=locals.email%>>

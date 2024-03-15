@@ -15,6 +15,8 @@ const profileRouter = require("./routes/profile");
 
 app.use("/profile", profileRouter);
 
+let users = [];
+
 app.route("/login")
     .get((req, res) => {
         res.render("login.ejs", { email: "example@gmail.com" });
@@ -23,15 +25,18 @@ app.route("/login")
         let inputEmail = req.body.email;
         let inputPassword = req.body.password;
         let user = inputEmail.split("@")[0];
-        if (inputEmail === "justinih2003@gmail.com")
+        if (
+            users.includes(
+                JSON.stringify({ email: inputEmail, password: inputPassword })
+            )
+        )
             res.redirect(`/profile/${user}`);
         else {
             res.render("login.ejs", {
                 email: `${inputEmail}`,
                 password: `${inputPassword}`,
-                error: "Invalid email or password!",
+                error: "Incorrect email or password!"
             });
-            console.log("error");
         }
     });
 
@@ -43,13 +48,16 @@ app.route("/register")
         let inputPassword = req.body.password;
         let confirmPassword = req.body.confirmPassword;
         let inputEmail = req.body.email;
-        if (confirmPassword === inputPassword) res.redirect("/login");
-        else {
+        if (confirmPassword === inputPassword) {
+            users.push(
+                JSON.stringify({ email: inputEmail, password: inputPassword })
+            );
+            res.redirect("/login");
+        } else {
             res.render("register.ejs", {
                 email: `${inputEmail}`,
                 password: `${inputPassword}`,
                 confirm: `${confirmPassword}`,
-                error: "Passwords do not match!",
             });
         }
     });

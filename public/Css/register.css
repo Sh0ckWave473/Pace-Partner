@@ -13,6 +13,12 @@ body {
     flex-direction: column;
 }
 
+h1 {
+    text-align: center;
+    color: white;
+    font: sans-serif;
+}
+
 #container > form {
     display: flex;
     flex-direction: column;
@@ -29,7 +35,7 @@ form > label {
     color: white;
 }
 
-#button-container > a {
+#button-container > a, form > button {
     position: relative;
     max-width: 40%;
     margin-inline: auto;
@@ -40,7 +46,7 @@ form > label {
     width: 50%;
 }
 
-#button-container > a:hover {
+#button-container > a:hover, form > button:hover {
     background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
 }
