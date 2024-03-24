@@ -1,8 +1,39 @@
 const express = require("express");
+const expressLayouts = require("express-ejs-layouts");
+const { MongoClient, ServerApiVersion } = require("mongodb");
 const app = express();
+
+const uri = require("./config/keys").MongoURI;
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+    },
+});
+
+async function run() {
+    try {
+        // Connect the client to the server	(optional starting in v4.7)
+        await client.connect();
+        // Send a ping to confirm a successful connection
+        await client.db("admin").command({ ping: 1 });
+        console.log(
+            "Pinged your deployment. You successfully connected to MongoDB!"
+        );
+    } finally {
+        // Ensures that the client will close when you finish/error
+        await client.close();
+    }
+}
+run().catch(console.dir);
 
 //Allows for static html files to be accessed via the url directly
 app.use(express.static("public"));
+
+app.use(expressLayouts);
 
 //Allows the app to access the body of an html element
 app.use(express.urlencoded({ extended: true }));
@@ -19,7 +50,7 @@ let users = [];
 
 app.route("/login")
     .get((req, res) => {
-        res.render("login.ejs", { email: "example@gmail.com" });
+        res.render("login", { email: "example@gmail.com" });
     })
     .post((req, res) => {
         let inputEmail = req.body.email;
@@ -32,17 +63,17 @@ app.route("/login")
         )
             res.redirect(`/profile/${user}`);
         else {
-            res.render("login.ejs", {
+            res.render("login", {
                 email: `${inputEmail}`,
                 password: `${inputPassword}`,
-                error: "Incorrect email or password!"
+                error: "Incorrect email or password!",
             });
         }
     });
 
 app.route("/register")
     .get((req, res) => {
-        res.render("register.ejs", { email: "example@gmail.com" });
+        res.render("register", { email: "example@gmail.com" });
     })
     .post((req, res) => {
         let inputPassword = req.body.password;
@@ -54,18 +85,14 @@ app.route("/register")
             );
             res.redirect("/login");
         } else {
-            res.render("register.ejs", {
+            res.render("register", {
                 email: `${inputEmail}`,
                 password: `${inputPassword}`,
                 confirm: `${confirmPassword}`,
+                error: "Passwords do not match!",
             });
         }
     });
-
-// function logger(req, res, next) {
-//     console.log(req.originalUrl);
-//     next();
-// }
 
 app.listen(3000, function () {
     console.log("Server is running on port 3000");
