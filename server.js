@@ -1,6 +1,7 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const { MongoClient, ServerApiVersion } = require("mongodb");
+const bcrypt = require("bcryptjs");
 const app = express();
 
 const uri = require("./config/keys").MongoURI;
@@ -50,7 +51,7 @@ let users = [];
 
 app.route("/login")
     .get((req, res) => {
-        res.render("login", { email: "example@gmail.com" });
+        res.render("login");
     })
     .post((req, res) => {
         let inputEmail = req.body.email;
@@ -73,7 +74,7 @@ app.route("/login")
 
 app.route("/register")
     .get((req, res) => {
-        res.render("register", { email: "example@gmail.com" });
+        res.render("register");
     })
     .post((req, res) => {
         let inputPassword = req.body.password;

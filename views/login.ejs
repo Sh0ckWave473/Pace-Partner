@@ -3,18 +3,20 @@
     <div id='errorMsg' style="color:red; text-align: center">
         <%= locals.error %>
     </div>
-    <label>Email:
-        <input type="email" name="email" value=<%=locals.email%>>
+    <label>
+        <i class="fa-solid fa-envelope"></i>
+        <input type="email" name="email" placeholder="Email" value=<%=locals.email%>>
     </label>
-    <label>Password:
-        <input type="password" name="password" id="password" value=<%=locals.password%>>
-        <button type="button" onclick="{
+    <label>
+        <i class="fa-solid fa-lock"></i>
+        <input type="password" name="password" id="password" placeholder="Password" value=<%=locals.password%>>
+        <i onclick="{
         if (document.getElementById('password').type === 'password') {
             document.getElementById('password').type = 'text';
         } else {
             document.getElementById('password').type = 'password';
         }
-        }">👁</button>
+        }"><i class="fa-solid fa-eye"></i></i>
     </label>
     <br />
     <button type="submit">Submit</button>
