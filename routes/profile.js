@@ -1,9 +1,9 @@
-const express = require("express");
-const router = express.Router();
+// const express = require("express");
+// const router = express.Router();
 
-//keep dynamic routes at the bottom as it reads top to bottom
-router.get("/:user", (req, res) => {
-    res.render("dashboard", { user: req.params.user });
-});
+// //keep dynamic routes at the bottom as it reads top to bottom
+// router.get("/", checkAuthenticated, (req, res) => {
+//     res.render("dashboard", { user: req.user.username });
+// });
 
-module.exports = router;
+// module.exports = router;

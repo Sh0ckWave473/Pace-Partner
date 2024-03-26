@@ -20,7 +20,7 @@
 * This will install MongoDB driver, which allows Node.js to interact with MongoDB databases.
 ## npm i express-session
 * Express session middleware for handling sessions in Node.js
-## npm i connect-flash
+## npm i express-flash
 * Flash messages for express-session like errors
 ## .gitignore
 * Make sure node_modules, and the package/package-lock.json files are added to this file
