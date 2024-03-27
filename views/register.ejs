@@ -1,46 +1,56 @@
 <h1>Register</h1>
-<form action="/register" method="post">
-    <div id='errorMsg' style="color:red; text-align: center">
-        <%= locals.error %>
+<% if(JSON.stringify(locals.messages) !=="{}" ) { %>
+    <div id="alert">
+        <%= locals.messages %>
+            <button type="button" id="close">
+                <span>&times;</span>
+            </button>
+            <script>
+                document.getElementById('close').addEventListener("click", () =>
+                    document.getElementById('alert').remove()
+                );
+            </script>
     </div>
-    <label>
-        <i class="fa-solid fa-envelope"></i>
-        <input type="text" name="username" placeholder="Username" value=<%=locals.username%>>
-    </label>
-    <br />
-    <label>
-        <i class="fa-solid fa-envelope"></i>
-        <input type="email" name="email" placeholder="Email" value=<%=locals.email%>>
-    </label>
-    <br />
-    <label>
-        <i class="fa-solid fa-lock"></i>
-        <input type="password" name="password" id="password" placeholder="Password" value=<%=locals.password%>>
-        <i onclick="{
+    <% } %>
+        <form action="/register" method="post">
+            <label>
+                <i class="fa-solid fa-envelope"></i>
+                <input type="text" name="username" placeholder="Username" value=<%=locals.username%>>
+            </label>
+            <br />
+            <label>
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" name="email" placeholder="Email" value=<%=locals.email%>>
+            </label>
+            <br />
+            <label>
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="password" id="password" placeholder="Password" value=<%=locals.password%>>
+                <i onclick="{
             if (document.getElementById('password').type === 'password') {
                 document.getElementById('password').type = 'text';
             } else {
                 document.getElementById('password').type = 'password';
             }
         }"><i class="fa-solid fa-eye"></i></i>
-    </label>
-    <br />
-    <label>
-        <i class="fa-solid fa-lock"></i>
-        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"
-            value=<%=locals.confirm%>>
-        <i onclick="{
+            </label>
+            <br />
+            <label>
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"
+                    value=<%=locals.confirm%>>
+                <i onclick="{
             if (document.getElementById('confirmPassword').type === 'password') {
                 document.getElementById('confirmPassword').type = 'text';
             } else {
                 document.getElementById('confirmPassword').type = 'password';
             }
         }"><i class="fa-solid fa-eye"></i></i>
-    </label>
-    <br />
-    <button type="submit">Submit</button>
-</form>
-<br />
-<div id="button-container">
-    <a href="/">Home Page</a>
-</div>
+            </label>
+            <br />
+            <button type="submit">Submit</button>
+        </form>
+        <br />
+        <div id="button-container">
+            <a href="/">Home Page</a>
+        </div>

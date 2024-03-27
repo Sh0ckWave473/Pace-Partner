@@ -1,11 +1,13 @@
 # Checklist
 ## User sign up features
-* Create a page for the user to land on that allows them to login
-* Allow for the user to register their account for future use
+~~* Create a page for the user to land on that allows them to login~~
+~~* Allow for the user to register their account for future use~~
 * Allow the user to delete their account
-* Integrate MongoDB so that you can store user emails and passwords
-* Use password encryption to safely store passwords in MongoDB
-* Allow the user to change their password to a new one
+~~* Integrate MongoDB so that you can store user emails and passwords~~
+~~* Use password encryption to safely store passwords in MongoDB~~
+* Allow the user to change their password/username to a new one
+* Create forgot password  functionality (send an email with reset link)
+* Add social media logins (Google, Strava) [least priority]
 ## Strava Compatability
 * Figure out how to get access to the free Strava api
   * Potentially incorporate a sign in with a Strava/Google account?

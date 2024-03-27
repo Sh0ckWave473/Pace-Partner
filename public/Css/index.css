@@ -41,6 +41,24 @@ p {
     width: 50%;
 }
 
+#alert {
+    align-self: center;
+    background-color: lightcoral;
+    inline-size: fit-content;
+    color: crimson;
+    padding: 5px;
+    margin: 5px;
+}
+
+#alert > button{
+    background-color: crimson;
+    color: white;
+    border: 0;
+    padding: 5px;
+    margin: 0;
+    cursor: pointer;
+}
+
 #container > form {
     display: flex;
     flex-direction: column;

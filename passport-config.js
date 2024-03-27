@@ -10,7 +10,7 @@ function initialize(passport) {
                 User.findOne({ email: email }).then((user) => {
                     if (!user)
                         return done(null, false, {
-                            message: "Incorrect email.",
+                            message: "Invalid email.",
                         });
                     bcrypt.compare(
                         password,

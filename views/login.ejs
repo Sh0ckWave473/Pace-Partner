@@ -1,32 +1,41 @@
 <h1>Login</h1>
-<form action="/login" method="post">
-    <div id='errorMsg' style="color:red; text-align: center">
-        <% if(messages.error) %>
-            <%= messages.error%>
+<% if(messages.error) { %>
+    <div id="alert">
+        <%= messages.error %>
+            <button type="button" id="close">
+                <span>&times;</span>
+            </button>
+            <script>
+                document.getElementById('close').addEventListener("click", () =>
+                    document.getElementById('alert').remove()
+                );
+            </script>
     </div>
-    <label>
-        <i class="fa-solid fa-envelope"></i>
-        <input type="email" name="email" placeholder="Email" value=<%=locals.email%>>
-    </label>
-    <label>
-        <i class="fa-solid fa-lock"></i>
-        <input type="password" name="password" id="password" placeholder="Password" value=<%=locals.password%>>
-        <i onclick="{
+    <% } %>
+        <form action="/login" method="post">
+            <label>
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" name="email" placeholder="Email" value=<%=locals.email%>>
+            </label>
+            <label>
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" name="password" id="password" placeholder="Password" value=<%=locals.password%>>
+                <i onclick="{
         if (document.getElementById('password').type === 'password') {
             document.getElementById('password').type = 'text';
         } else {
             document.getElementById('password').type = 'password';
         }
         }"><i class="fa-solid fa-eye"></i></i>
-    </label>
-    <br />
-    <button type="submit">Submit</button>
-</form>
-<br />
-<div id="button-container">
-    <a href="/register">Register</a>
-    <br />
-    <a href="/forgotPassword">Forgot Password?</a>
-    <br />
-    <a href="/">Home Page</a>
-</div>
+            </label>
+            <br />
+            <button type="submit">Submit</button>
+        </form>
+        <br />
+        <div id="button-container">
+            <a href="/register">Register</a>
+            <br />
+            <a href="/forgotPassword">Forgot Password?</a>
+            <br />
+            <a href="/">Home Page</a>
+        </div>

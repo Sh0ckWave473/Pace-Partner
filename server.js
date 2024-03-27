@@ -86,7 +86,7 @@ app.route("/register")
                             email: `${inputEmail}`,
                             password: `${inputPassword}`,
                             confirm: `${confirmPassword}`,
-                            error: "Username already exists!",
+                            messages: "Username already exists!",
                         });
                 });
                 const hashedPassword = await bcrypt.hash(inputPassword, 10);
@@ -97,7 +97,7 @@ app.route("/register")
                             email: `${inputEmail}`,
                             password: `${inputPassword}`,
                             confirm: `${confirmPassword}`,
-                            error: "Email already exists!",
+                            messages: "Email already exists!",
                         });
                     else {
                         const newUser = new User({
@@ -122,7 +122,7 @@ app.route("/register")
                 email: `${inputEmail}`,
                 password: `${inputPassword}`,
                 confirm: `${confirmPassword}`,
-                error: error,
+                messages: error,
             });
     });
 
@@ -131,7 +131,7 @@ app.route("/profile").get((req, res) => {
         res.render("dashboard", { user: req.user.username });
     else
         res.render("/login", {
-            error: "You must be logged in to view this page!",
+            messages: "You must be logged in to view this page!",
         });
 });
 
