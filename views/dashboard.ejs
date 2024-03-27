@@ -2,3 +2,7 @@
 <%= locals.user %> signed in!
     <br />
     <a href="/">Home Page</a>
+    <br />
+    <form action="/logout?_method=DELETE" method="POST">
+        <button type="submit">Logout</button>
+    </form>
