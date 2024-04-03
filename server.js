@@ -10,6 +10,8 @@ const methodOverride = require("method-override");
 require("dotenv").config();
 const app = express();
 
+const PORT = process.env.PORT || 3000;
+
 const User = require("./model/user");
 
 const initializePassport = require("./passport-config");
@@ -147,6 +149,6 @@ function checkAuthenticated(req, res, next) {
     return next();
 }
 
-app.listen(3000, function () {
-    console.log("Server is running on port 3000");
+app.listen(PORT, function () {
+    console.log(`Server is running on port ${PORT}`);
 });
