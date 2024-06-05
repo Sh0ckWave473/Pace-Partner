@@ -35,7 +35,7 @@ p {
     margin-inline: auto;
     background-color: rgba(0, 0, 0, 0.5);
     text-align: center;
-    font-size: 1.5em;
+    font-size: clamp(1.5vw, 100%, 3vw);
     color: white;
     z-index: 1;
     width: 50%;
@@ -67,6 +67,7 @@ p {
 
 form > label, form > div{
     position: relative;
+    display: flex;
     max-width: fit-content;
     margin-inline: auto;
     text-align: center;
@@ -76,7 +77,7 @@ form > label, form > div{
 form > label > input {
     position: relative;
     border-radius: 10px;
-    max-width: fit-content;
+    width: clamp(10rem, 100%, 20rem);
     margin-inline: auto;
     background-color: rgb(74, 0, 0);
     color: white;
@@ -92,7 +93,7 @@ form > label > input {
     border: 0;
     background-color: rgba(0, 0, 0, 0.5);
     text-align: center;
-    font: 1.5rem sans-serif;
+    font: clamp(2rem, 100%, 10rem) sans-serif;
     color: white;
     width: 50%;
     transform: scale(1);
