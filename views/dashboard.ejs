@@ -1,7 +1,5 @@
 <h1>Dashboard</h1>
-<%= locals.user %> signed in!
-    <br />
-    <a href="/">Home Page</a>
+Hello <%= locals.user %>!
     <br />
     <form action="/logout?_method=DELETE" method="POST">
         <button type="submit">Logout</button>

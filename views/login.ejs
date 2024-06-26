@@ -20,13 +20,15 @@
             <label>
                 <i class="fa-solid fa-lock"></i>
                 <input type="password" name="password" id="password" placeholder="Password" value=<%=locals.password%>>
-                <i onclick="{
-        if (document.getElementById('password').type === 'password') {
-            document.getElementById('password').type = 'text';
-        } else {
-            document.getElementById('password').type = 'password';
-        }
-        }"><i class="fa-solid fa-eye"></i></i>
+                <i style="display: flex;" onclick="{
+                    if (document.getElementById('password').type === 'password') {
+                        document.getElementById('password').type = 'text';
+                    } else {
+                        document.getElementById('password').type = 'password';
+                    }
+                    }">
+                    <i class="fa-solid fa-eye"></i>
+                </i>
             </label>
             <br />
             <button type="submit">Submit</button>
@@ -36,6 +38,4 @@
             <a href="/register">Register</a>
             <br />
             <a href="/forgotPassword">Forgot Password?</a>
-            <br />
-            <a href="/">Home Page</a>
         </div>

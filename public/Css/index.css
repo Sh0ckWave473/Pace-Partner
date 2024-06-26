@@ -1,43 +1,113 @@
 body {
-    background-image: url('../imgs/runningbackground.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
+    margin: 0%;
 }
 
-#container {
+#mainContainer {
     display: flex;
     justify-content: center;
-    background-color: rgba(149, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
+    background-image: url('../imgs/runningbackground.jpg');
     margin-inline: auto;
-    width: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
     height: 80vh;
     flex-direction: column;
-    box-shadow: 0 0 30px rgba(149, 0, 0, 0.5);
-    border-radius: 10px;
+}
+
+#navContainer > nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(255, 255, 255);
+    backdrop-filter: blur(5px);
+    margin-inline: auto;
+    width: 100%;
+    height: 10vh;
     border-style: solid;
     border-width: 2px;
-    border-color: rgba(29, 0, 0);
+}
+
+#logo {
+    position: relative;
+    display: flex;
+    padding-left: 2%;
+    align-items: center;
+    text-decoration: none;
+    color: rgb(176, 0, 0);
+    font-size: clamp(1.5vw, 100%, 3vw);
+    width: 100%;
+    height: 100%;
+}
+
+#nav-links > a:hover {
+    background-color: rgba(255, 95, 95, 0.496);
+    cursor: pointer;
+}
+
+#nav-links > a {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-size: clamp(1.5vw, 100%, 3vw);
+    width: 100%;
+    height: 100%;
+    transition: background-color 0.3s ease;
+}
+
+#nav-links {
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+    margin-inline: auto;
+}
+
+#demoContainer {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    margin-inline: auto;
+    width: 100%;
+    height: 60vh;
+    flex-direction: column;
+    margin: 5px;
+}
+
+#demo {
+    display: block;
+    color: white;
+    font-size: clamp(1.5vw, 100%, 3vw);
+}
+
+#subtext {
+    display: flex;
+    justify-content: center;
+}
+
+h2 {
+    color: black;
 }
 
 h1 {
     position: relative;
     max-width: fit-content;
     margin-inline: auto;
-    background-color: rgba(0, 0, 0, 0.5);
     text-align: center;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
-p {
+#container {
+    background-color: rgb(255, 255, 255);
     position: relative;
-    max-width: fit-content;
     margin-inline: auto;
-    background-color: rgba(0, 0, 0, 0.5);
     text-align: center;
     font-size: clamp(1.5vw, 100%, 3vw);
-    color: white;
+    color: black;
+    align-content: center;
+    border: black solid 1px;
     z-index: 1;
+    height: 100%;
     width: 50%;
 }
 
@@ -71,7 +141,8 @@ form > label, form > div{
     max-width: fit-content;
     margin-inline: auto;
     text-align: center;
-    color: white;
+    color: rgb(0, 0, 0);
+    align-self: flex-start;
 }
 
 form > label > input {
@@ -80,7 +151,7 @@ form > label > input {
     width: clamp(10rem, 100%, 20rem);
     margin-inline: auto;
     background-color: rgb(74, 0, 0);
-    color: white;
+    color: rgb(0, 0, 0);
     transition: transform 0.3s ease;
     padding: 6px 5px;
 }
@@ -93,8 +164,8 @@ form > label > input {
     border: 0;
     background-color: rgba(0, 0, 0, 0.5);
     text-align: center;
-    font: clamp(2rem, 100%, 10rem) sans-serif;
-    color: white;
+    font: clamp(1rem, 70%, 10rem) sans-serif;
+    color: rgb(0, 0, 0);
     width: 50%;
     transform: scale(1);
     transition: transform 0.3s ease;
@@ -111,4 +182,10 @@ form > label > input {
     flex-direction: column;
     justify-content: space-around;
     margin-top: 20px;
+}
+
+i {
+    color: black;
+    margin: 1px;
+    align-self: center;
 }
