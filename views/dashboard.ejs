@@ -1,6 +1,53 @@
+<div id="navContainer">
+    <nav>
+        <div id="logo">
+            <div>Pace Partner</div>
+        </div>
+        <div id="nav-links">
+            <a href="/" id="link">Home</a>
+            <form id="link" action="/logout?_method=DELETE" method="POST">
+                <button id="link" type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+</div>
 <h1>Dashboard</h1>
 Hello <%= locals.user %>!
-    <br />
-    <form action="/logout?_method=DELETE" method="POST">
-        <button type="submit">Logout</button>
-    </form>
+    <div id="schedule-wrapper">
+        <div id="schedule-header">
+            Something on top
+        </div>
+        <div id="schedule-body">
+            <table>
+                <thead>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Day 1</td>
+                        <td>Day 2</td>
+                        <td>Day 3</td>
+                        <td>Day 4</td>
+                        <td>Day 5</td>
+                        <td>Day 6</td>
+                        <td>Day 7</td>
+                    </tr>
+                    <tr>
+                        <td>Day 8</td>
+                        <td>Day 9</td>
+                        <td>Day 10</td>
+                        <td>Day 11</td>
+                        <td>Day 12</td>
+                        <td>Day 13</td>
+                        <td>Day 14</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

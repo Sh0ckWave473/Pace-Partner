@@ -1,52 +1,45 @@
-<h1>Register</h1>
-<% if(JSON.stringify(locals.messages) !=="{}" ) { %>
-    <div id="alert">
-        <%= locals.messages %>
-            <button type="button" id="close">
-                <span>&times;</span>
-            </button>
-            <script>
-                document.getElementById('close').addEventListener("click", () =>
-                    document.getElementById('alert').remove()
-                );
-            </script>
+<div id="navContainer">
+    <nav>
+        <div id="logo">
+            <div>Pace Partner</div>
+        </div>
+        <div id="nav-links">
+            <a href="/" id="link">Home</a>
+        </div>
+    </nav>
+</div>
+<div id="mainContainer">
+    <div id="container">
+        <h1>Register</h1>
+        <% if(JSON.stringify(locals.messages) !=="{}" ) { %>
+            <div id="alert">
+                <%= locals.messages %>
+                    <button type="button" id="close">
+                        <span>&times;</span>
+                    </button>
+                    <script>
+                        document.getElementById('close').addEventListener("click", () =>
+                            document.getElementById('alert').remove()
+                        );
+                    </script>
+            </div>
+            <% } %>
+                <form action="/register" method="post">
+                    <label>
+                        <input type="text" name="username" placeholder="Username" value=<%=locals.username%>>
+                    </label>
+                    <label>
+                        <input type="email" name="email" placeholder="Email" value=<%=locals.email%>>
+                    </label>
+                    <label>
+                        <input type="password" name="password" id="password" placeholder="Password"
+                            value=<%=locals.password%>>
+                    </label>
+                    <label>
+                        <input type="password" name="confirmPassword" id="confirmPassword"
+                            placeholder="Confirm Password" value=<%=locals.confirm%>>
+                    </label>
+                    <button id="submit" type="submit">Submit</button>
+                </form>
     </div>
-    <% } %>
-        <form action="/register" method="post">
-            <label>
-                <i class="fa-solid fa-envelope"></i>
-                <input type="text" name="username" placeholder="Username" value=<%=locals.username%>>
-            </label>
-            <br />
-            <label>
-                <i class="fa-solid fa-envelope"></i>
-                <input type="email" name="email" placeholder="Email" value=<%=locals.email%>>
-            </label>
-            <br />
-            <label>
-                <i class="fa-solid fa-lock"></i>
-                <input type="password" name="password" id="password" placeholder="Password" value=<%=locals.password%>>
-                <i onclick="{
-            if (document.getElementById('password').type === 'password') {
-                document.getElementById('password').type = 'text';
-            } else {
-                document.getElementById('password').type = 'password';
-            }
-        }"><i class="fa-solid fa-eye"></i></i>
-            </label>
-            <br />
-            <label>
-                <i class="fa-solid fa-lock"></i>
-                <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password"
-                    value=<%=locals.confirm%>>
-                <i onclick="{
-            if (document.getElementById('confirmPassword').type === 'password') {
-                document.getElementById('confirmPassword').type = 'text';
-            } else {
-                document.getElementById('confirmPassword').type = 'password';
-            }
-        }"><i class="fa-solid fa-eye"></i></i>
-            </label>
-            <br />
-            <button type="submit">Submit</button>
-        </form>
+</div>

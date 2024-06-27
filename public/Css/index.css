@@ -14,13 +14,16 @@ body {
     flex-direction: column;
 }
 
-#navContainer > nav {
+nav {
     display: flex;
-    justify-content: space-between;
-    background-color: rgb(255, 255, 255);
-    backdrop-filter: blur(5px);
     margin-inline: auto;
     width: 100%;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background-color: rgb(255, 255, 255);
+    backdrop-filter: blur(5px);
     height: 10vh;
     border-style: solid;
     border-width: 2px;
@@ -38,12 +41,14 @@ body {
     height: 100%;
 }
 
-#nav-links > a:hover {
+#link:hover {
     background-color: rgba(255, 95, 95, 0.496);
     cursor: pointer;
+    scale: unset;
 }
 
-#nav-links > a {
+#link {
+    all: unset;
     position: relative;
     display: flex;
     justify-content: center;
@@ -58,9 +63,7 @@ body {
 
 #nav-links {
     display: flex;
-    justify-content: space-around;
-    width: 50%;
-    margin-inline: auto;
+    width: 30%;
 }
 
 #demoContainer {
@@ -143,6 +146,7 @@ form > label, form > div{
     text-align: center;
     color: rgb(0, 0, 0);
     align-self: flex-start;
+    margin-block: 10px;
 }
 
 form > label > input {
@@ -150,16 +154,17 @@ form > label > input {
     border-radius: 10px;
     width: clamp(10rem, 100%, 20rem);
     margin-inline: auto;
-    background-color: rgb(74, 0, 0);
+    background-color: rgb(255, 163, 163);
     color: rgb(0, 0, 0);
     transition: transform 0.3s ease;
     padding: 6px 5px;
 }
 
-#button-container > a, form > button{
+#button-container > a, form > #submit{
     position: relative;
     max-width: 40%;
     margin-inline: auto;
+    margin-block: 10px;
     text-decoration: none;
     border: 0;
     background-color: rgba(0, 0, 0, 0.5);
@@ -171,7 +176,7 @@ form > label > input {
     transition: transform 0.3s ease;
 }
 
-#button-container > a:hover, form > button:hover{
+#button-container > a:hover, form > #submit:hover{
     background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
     transform: scale(1.1);
@@ -181,11 +186,21 @@ form > label > input {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    margin-top: 20px;
 }
 
-i {
-    color: black;
-    margin: 1px;
-    align-self: center;
+#schedule-wrapper {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    margin-inline: auto;
+    width: 100%;
+    flex-direction: column;
+    margin: 5px;
+}
+
+#schedule-body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
 }
