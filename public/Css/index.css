@@ -132,13 +132,13 @@ h1 {
     cursor: pointer;
 }
 
-#container > form {
+#container > #signing-up {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-form > label, form > div{
+#signing-up > label, #signing-up > div{
     position: relative;
     display: flex;
     max-width: fit-content;
@@ -149,7 +149,7 @@ form > label, form > div{
     margin-block: 10px;
 }
 
-form > label > input {
+#signing-up > label > input {
     position: relative;
     border-radius: 10px;
     width: clamp(10rem, 100%, 20rem);
@@ -160,7 +160,7 @@ form > label > input {
     padding: 6px 5px;
 }
 
-#button-container > a, form > #submit{
+#button-container > a, #signing-up > #submit{
     position: relative;
     max-width: 40%;
     margin-inline: auto;
@@ -176,7 +176,7 @@ form > label > input {
     transition: transform 0.3s ease;
 }
 
-#button-container > a:hover, form > #submit:hover{
+#button-container > a:hover, #signing-up > #submit:hover{
     background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
     transform: scale(1.1);
@@ -192,10 +192,8 @@ form > label > input {
     display: flex;
     justify-content: center;
     background-color: rgb(255, 255, 255);
-    margin-inline: auto;
-    width: 100%;
     flex-direction: column;
-    margin: 5px;
+    padding: 2rem;
 }
 
 #schedule-body {
@@ -203,4 +201,11 @@ form > label > input {
     justify-content: center;
     flex-direction: column;
     width: 100%;
+}
+
+#calc-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
 }
