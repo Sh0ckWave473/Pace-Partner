@@ -27,6 +27,8 @@
 * Flash messages for express-session like errors
 ### method-override
 * Allows you to use HTTP verbs such as PUT or DELETE in forms
+### child_process
+* This package allows you to spawn child processes in Node js, specifically python
 ## .gitignore
 * Make sure node_modules, and the package/package-lock.json files are added to this file
 * Note: when you make changes to these files, make sure those changes are also made to the separate devices pulling from the repository

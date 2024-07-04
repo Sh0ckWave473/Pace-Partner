@@ -17,6 +17,8 @@ const User = require("./model/user");
 const initializePassport = require("./passport-config");
 initializePassport(passport);
 
+const { spawn } = require("child_process");
+
 //Connecting to the database
 const db = process.env.MONGO_URI;
 mongoose
@@ -52,7 +54,7 @@ app.route("/login")
     .post(
         checkAuthenticated,
         passport.authenticate("local", {
-            successRedirect: "/profile",
+            successRedirect: "/paceCalc",
             failureRedirect: "/login",
             failureFlash: true,
         })
@@ -128,11 +130,80 @@ app.route("/register")
             });
     });
 
-app.route("/profile").get((req, res) => {
+app.route("/paceCalc")
+    .get((req, res) => {
+        if (req.isAuthenticated())
+            res.render("paceCalc", { user: req.user.username });
+        else
+            res.render("login", {
+                messages: "You must be logged in to view this page!",
+            });
+    })
+    .post((req, res) => {
+        let inputDistance = req.body.distance;
+        let inputPRHour = req.body.prH;
+        if (!inputPRHour) inputPRHour = 0;
+        let inputPRMinute = req.body.prM;
+        let inputPRSecond = req.body.prS;
+        let inputPR =
+            parseInt(inputPRHour) * 3600 +
+            parseInt(inputPRMinute) * 60 +
+            parseInt(inputPRSecond);
+        console.log("PR " + inputPR);
+        let inputVO2 = req.body.vO2;
+        let inputDays = req.body.days;
+        let inputWorkouts = req.body.workouts;
+        let error = "";
+
+        if (!inputPRMinute || !inputPRSecond) {
+            error = "Input a valid PR time";
+            inputPR = 0;
+            res.render("paceCalc", {
+                easy: 0,
+                marathon: 0,
+                threshold: 0,
+                interval: 0,
+                repeat: 0,
+                twoMilePR: 0,
+                v02: 0,
+                user: req.user.username,
+                messages: error,
+            });
+        } else {
+            const pythonProcess = spawn("python", [
+                "app.py",
+                "./CSV/RunningPaces.csv",
+                inputDistance,
+                inputPR,
+            ]);
+
+            pythonProcess.stdout.on("data", (data) => {
+                console.log(`Data from Python script: ${data}`);
+                data = data + "";
+                let arr = data.split(" ");
+                res.render("paceCalc", {
+                    easy: arr[1],
+                    marathon: arr[2],
+                    threshold: arr[3],
+                    interval: arr[4],
+                    repeat: arr[5],
+                    v02: arr[0],
+                    user: req.user.username,
+                    messages: error,
+                });
+            });
+
+            pythonProcess.stderr.on("data", (data) => {
+                console.error(`Error: ${data}`);
+            });
+        }
+    });
+
+app.route("/calendar").get((req, res) => {
     if (req.isAuthenticated())
-        res.render("dashboard", { user: req.user.username });
+        res.render("calendar", { user: req.user.username });
     else
-        res.render("/login", {
+        res.render("login", {
             messages: "You must be logged in to view this page!",
         });
 });
@@ -145,10 +216,10 @@ app.delete("/logout", (req, res) => {
 });
 
 function checkAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) return res.redirect("/profile");
+    if (req.isAuthenticated()) return res.redirect("/paceCalc");
     return next();
 }
 
 app.listen(PORT, function () {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}, http://localhost:3000`);
 });
