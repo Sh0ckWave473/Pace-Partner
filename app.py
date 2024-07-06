@@ -1,5 +1,4 @@
 import sys
-sys.path.insert(0, "./pandas")
 import pandas as pd
 
 def time_to_seconds(time):
