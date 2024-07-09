@@ -1,18 +1,19 @@
-FROM node:16
+FROM python:3.12
 
-RUN apt-get update && \
-    apt-get install -y software-properties-common && \
-    apt-get update && \
-    apt-get install -y python3.11 python3.11-distutils python3.11-pip
-
-WORKDIR /usr/src/app
-
-COPY package*.json .
-RUN npm install
+WORKDIR /opt/app
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+RUN apt-get update && \
+    apt-get install -y nodejs npm && \
+    npm install -g npm@latest
+
+COPY package*.json ./
+
+RUN npm install
+
 COPY . .
+
 EXPOSE 3000
 CMD ["npm", "start"]
