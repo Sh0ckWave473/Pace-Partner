@@ -14,41 +14,62 @@
     </nav>
 </div>
 <h1>Calendar</h1>
-<div id="schedule-wrapper">
-    <div id="schedule-header">
-        Something on top
+<% if(typeof messages !=='undefined' ) { %>
+    <div id="alert">
+        <%= locals.messages %>
+            <button type="button" id="close">
+                <span>&times;</span>
+            </button>
+            <script>
+                document.getElementById('close').addEventListener("click", () =>
+                    document.getElementById('alert').remove()
+                );
+            </script>
     </div>
-    <div id="schedule-body">
-        <table>
-            <thead>
-                <th>Monday</th>
-                <th>Tuesday</th>
-                <th>Wednesday</th>
-                <th>Thursday</th>
-                <th>Friday</th>
-                <th>Saturday</th>
-                <th>Sunday</th>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Day 1</td>
-                    <td>Day 2</td>
-                    <td>Day 3</td>
-                    <td>Day 4</td>
-                    <td>Day 5</td>
-                    <td>Day 6</td>
-                    <td>Day 7</td>
-                </tr>
-                <tr>
-                    <td>Day 8</td>
-                    <td>Day 9</td>
-                    <td>Day 10</td>
-                    <td>Day 11</td>
-                    <td>Day 12</td>
-                    <td>Day 13</td>
-                    <td>Day 14</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+    <% } %>
+        <div id="calc-wrapper">
+            <form id="calculation" action="/calendar" method="post">
+                <label>
+                    Number of Days Before your Race:
+                    <input type="text" name="calendarLength" placeholder="0"></input>
+                </label>
+                <br />
+                <input type="submit" value="See your running paces!"></input>
+            </form>
+        </div>
+        <div id="schedule-wrapper">
+            <div id="schedule-header">
+                Something on top
+            </div>
+            <table id="schedule">
+                <thead id="schedule-head">
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </thead>
+                <tbody id="schedule-body">
+                    <tr>
+                        <td>Day 1</td>
+                        <td>Day 2</td>
+                        <td>Day 3</td>
+                        <td>Day 4</td>
+                        <td>Day 5</td>
+                        <td>Day 6</td>
+                        <td>Day 7</td>
+                    </tr>
+                    <tr>
+                        <td>Day 8</td>
+                        <td>Day 9</td>
+                        <td>Day 10</td>
+                        <td>Day 11</td>
+                        <td>Day 12</td>
+                        <td>Day 13</td>
+                        <td>Day 14</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>

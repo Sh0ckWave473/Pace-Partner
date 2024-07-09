@@ -130,6 +130,35 @@ app.route("/register")
             });
     });
 
+app.route("/forgotPassword")
+    .get((req, res) => {
+        if (req.isAuthenticated())
+            res.render("paceCalc", { user: req.user.username });
+        else res.render("forgotPassword");
+    })
+    .post((req, res) => {
+        let inputEmail = req.body.email;
+        let error = "";
+        if (inputEmail === "") error = "Email is required!";
+        else {
+            User.findOne({ email: inputEmail }).then((user) => {
+                if (!user)
+                    res.render("forgotPassword", {
+                        email: `${inputEmail}`,
+                        messages: "Email does not exist!",
+                    });
+                else {
+                    res.render("resetPassword", { email: `${inputEmail}` });
+                }
+            });
+        }
+        if (error !== "")
+            res.render("forgotPassword", {
+                email: `${inputEmail}`,
+                messages: error,
+            });
+    });
+
 app.route("/paceCalc")
     .get((req, res) => {
         if (req.isAuthenticated())
@@ -199,14 +228,35 @@ app.route("/paceCalc")
         }
     });
 
-app.route("/calendar").get((req, res) => {
-    if (req.isAuthenticated())
-        res.render("calendar", { user: req.user.username });
-    else
-        res.render("login", {
-            messages: "You must be logged in to view this page!",
-        });
-});
+app.route("/calendar")
+    .get((req, res) => {
+        if (req.isAuthenticated())
+            res.render("calendar", { user: req.user.username });
+        else
+            res.render("login", {
+                messages: "You must be logged in to view this page!",
+            });
+    })
+    .post((req, res) => {
+        let inputDays = req.body.calendarLength;
+        inputDays = parseInt(inputDays);
+        if (isNaN(inputDays) || inputDays < 7) {
+            res.render("calendar", {
+                user: req.user.username,
+                messages: "Input a greater number of days",
+            });
+        } else if (inputDays > 31) {
+            res.render("calendar", {
+                user: req.user.username,
+                messages: "Input a smaller number of days",
+            });
+        } else {
+            res.render("calendar", {
+                user: req.user.username,
+                messages: "Generated",
+            });
+        }
+    });
 
 app.delete("/logout", (req, res) => {
     req.logOut(function (e) {
