@@ -14,7 +14,7 @@
     </nav>
 </div>
 <h1>Calendar</h1>
-<% if(typeof messages !=='undefined' ) { %>
+<% if(JSON.stringify(messages) !=="{}" && messages !=="" ) { %>
     <div id="alert">
         <%= locals.messages %>
             <button type="button" id="close">
@@ -28,18 +28,16 @@
     </div>
     <% } %>
         <div id="calc-wrapper">
-            <form id="calculation" action="/calendar" method="post">
-                <label>
-                    Number of Days Before your Race:
-                    <input type="text" name="calendarLength" placeholder="0"></input>
-                </label>
-                <br />
-                <input type="submit" value="See your running paces!"></input>
-            </form>
+            <label>
+                Number of Weeks Before your Race:
+                <input type="text" id="calendarLength" name="calendarLength" placeholder="0"></input>
+            </label>
+            <br />
+            <input id="calendarButton" type="submit" value="Generate your calendar!"></input>
         </div>
         <div id="schedule-wrapper">
             <div id="schedule-header">
-                Something on top
+                Note: This data is not saved so do not put any important information on here yet
             </div>
             <table id="schedule">
                 <thead id="schedule-head">
@@ -52,24 +50,47 @@
                     <th>Sunday</th>
                 </thead>
                 <tbody id="schedule-body">
-                    <tr>
-                        <td>Day 1</td>
-                        <td>Day 2</td>
-                        <td>Day 3</td>
-                        <td>Day 4</td>
-                        <td>Day 5</td>
-                        <td>Day 6</td>
-                        <td>Day 7</td>
-                    </tr>
-                    <tr>
-                        <td>Day 8</td>
-                        <td>Day 9</td>
-                        <td>Day 10</td>
-                        <td>Day 11</td>
-                        <td>Day 12</td>
-                        <td>Day 13</td>
-                        <td>Day 14</td>
-                    </tr>
+
                 </tbody>
             </table>
+            <script>
+                document
+                    .getElementById("calendarButton")
+                    .addEventListener("click", function (e) {
+                        e.preventDefault();
+                        let weeks = parseInt(document.getElementById("calendarLength").value);
+                        let daysGenerated = 0;
+                        let weeksGenerated = 0;
+                        if (weeks >= 1 && weeks <= 10 && !(document.getElementById("day1"))) {
+                            while (daysGenerated != weeks * 7) {
+                                if (daysGenerated % 7 == 0) {
+                                    weeksGenerated++;
+                                    let week = document.createElement("tr");
+                                    week.id = "week" + weeksGenerated;
+                                    document.getElementById("schedule-body").appendChild(week);
+                                }
+                                daysGenerated++;
+                                let day = document.createElement("td");
+                                day.id = "day" + daysGenerated;
+                                day.textContent = "Day " + daysGenerated;
+                                day.classList = "day-style";
+                                document
+                                    .getElementById("week" + weeksGenerated)
+                                    .appendChild(day);
+                            }
+                            for (let i = 1; i < weeks * 7; i++) {
+                                let day = document.getElementById("day" + i);
+                                day.addEventListener("click", (e) => {
+                                    e.preventDefault();
+                                    let input = prompt("Plan your run for today!");
+                                    if (day.children.length == 1 && input)
+                                        day.removeChild(day.children[0]);
+                                    describedDay = document.createElement("div");
+                                    describedDay.textContent = input;
+                                    day.appendChild(describedDay);
+                                });
+                            }
+                        }
+                    });
+            </script>
         </div>

@@ -196,16 +196,15 @@ h1 {
     padding: 2rem;
 }
 
-#schedule-body {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
-}
-
 #calc-wrapper {
     display: flex;
     justify-content: center;
     flex-direction: column;
     padding: 2rem;
+}
+
+.day-style {
+    justify-content: center;
+    padding: 2rem;
+    background-color: rgb(255, 134, 134);
 }

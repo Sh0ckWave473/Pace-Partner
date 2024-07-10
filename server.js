@@ -243,12 +243,12 @@ app.route("/calendar")
         if (isNaN(inputDays) || inputDays < 7) {
             res.render("calendar", {
                 user: req.user.username,
-                messages: "Input a greater number of days",
+                messages: "Input a number between 7 and 31 inclusive",
             });
         } else if (inputDays > 31) {
             res.render("calendar", {
                 user: req.user.username,
-                messages: "Input a smaller number of days",
+                messages: "Input a number between 7 and 31 inclusive",
             });
         } else {
             res.render("calendar", {

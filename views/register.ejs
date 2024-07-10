@@ -11,7 +11,7 @@
 <div id="mainContainer">
     <div id="container">
         <h1>Register</h1>
-        <% if(typeof messages !=='undefined' ) { %>
+        <% if(JSON.stringify(messages) !=="{}" && messages !=="" ) { %>
             <div id="alert">
                 <%= locals.messages %>
                     <button type="button" id="close">

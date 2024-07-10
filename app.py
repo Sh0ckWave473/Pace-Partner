@@ -20,14 +20,7 @@ def read_csv(file_path, distance, time):
     time = int(time)
     df = pd.read_csv(file_path)
     df_seconds = df.map(time_to_seconds)
-    if distance == "1 mile":
-        closest_index = (df_seconds["1500m"] - time).abs().idxmin()
-    elif distance == "2 mile":
-        closest_index = (df_seconds["3k"] - time).abs().idxmin()
-    elif distance == "3 mile":
-        closest_index = (df_seconds["5k"] - time).abs().idxmin()
-    else:
-        closest_index = (df_seconds[distance] - time).abs().idxmin()
+    closest_index = (df_seconds[distance] - time).abs().idxmin()
     vDOT = df.loc[closest_index, "VDOT"]
     ePMile = df.loc[closest_index, "EP mile"]
     mPMile = df.loc[closest_index, "MP mile"]
