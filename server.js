@@ -46,6 +46,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride("_method"));
 
+app.use(
+    express.static("public", {
+        setHeaders: (res, path) => {
+            if (path.endsWith(".js")) {
+                res.setHeader("Content-Type", "application/javascript");
+            }
+        },
+    })
+);
+
 let users = [];
 
 app.route("/login")
