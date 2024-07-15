@@ -261,9 +261,17 @@ app.route("/save-calendar").post((req, res) => {
 app.route("/calendar")
     .get((req, res) => {
         if (req.isAuthenticated()) {
+            console.log("Finding User...");
             User.findOne({ username: req.user.username }).then((user) => {
-                if (user.calendar) calendar = user.calendar;
-                else
+                console.log("User found: " + user.username);
+                if (user.calendar) {
+                    calendar = user.calendar;
+                    res.render("calendar", {
+                        user: user.username,
+                        calendar: user.calendar,
+                        messages: "Previously saved calendar found",
+                    });
+                } else
                     res.render("calendar", {
                         user: req.user.username,
                         messages: "No previously saved calendar found!",

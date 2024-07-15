@@ -1,5 +1,6 @@
 body {
     margin: 0%;
+    overflow-x: hidden;
 }
 
 #mainContainer {
@@ -119,8 +120,8 @@ h1 {
     background-color: lightcoral;
     inline-size: fit-content;
     color: crimson;
-    padding: 5px;
-    margin: 5px;
+    max-width: fit-content;
+    margin-inline: auto;
 }
 
 #alert > button{

@@ -14,8 +14,16 @@ document.getElementById("calendarButton").addEventListener("click", (e) => {
             daysGenerated++;
             let day = document.createElement("td");
             day.id = "day" + daysGenerated;
-            day.textContent = "Day " + daysGenerated;
             day.classList = "day-style";
+            let dayHeader = document.createElement("div");
+            dayHeader.classList = "day-header";
+            dayHeader.id = "day" + daysGenerated + "-header";
+            dayHeader.textContent = "Day " + daysGenerated;
+            day.appendChild(dayHeader);
+            let dayContent = document.createElement("div");
+            dayContent.classList = "day-content";
+            dayContent.id = "day" + daysGenerated + "-content";
+            day.appendChild(dayContent);
             document.getElementById("week" + weeksGenerated).appendChild(day);
         }
         for (let i = 1; i < weeks * 7; i++) {
@@ -23,11 +31,11 @@ document.getElementById("calendarButton").addEventListener("click", (e) => {
             day.addEventListener("click", (e) => {
                 e.preventDefault();
                 let input = prompt("Plan your run for today!");
-                if (day.children.length == 1 && input)
-                    day.removeChild(day.children[0]);
-                describedDay = document.createElement("div");
-                describedDay.textContent = input;
-                day.appendChild(describedDay);
+                while (input === "") input = prompt("Plan your run for today!");
+                if (input) {
+                    console.log(input);
+                    day.children[1].textContent = input;
+                }
             });
         }
     }
@@ -71,14 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
     while (day) {
         console.log(day);
         day.addEventListener("click", (e) => {
-            console.log(e.currentTarget);
             e.preventDefault();
             let input = prompt("Plan your run for today!");
-            if (e.currentTarget.children.length == 1 && input)
-                e.currentTarget.removeChild(e.currentTarget.children[0]);
-            describedDay = document.createElement("div");
-            describedDay.textContent = input;
-            e.currentTarget.appendChild(describedDay);
+            while (input === "") input = prompt("Plan your run for today!");
+            if (input) {
+                console.log(input);
+                e.currentTarget.children[1].textContent = input;
+            }
         });
         i++;
         day = document.getElementById("day" + i);
