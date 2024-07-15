@@ -29,7 +29,15 @@ mongoose
 //Sets the view engine to be ejs
 app.set("view engine", "ejs");
 //Allows for static html files to be accessed via the url directly
-app.use(express.static("public"));
+app.use(
+    express.static("public", {
+        setHeaders: (res, path) => {
+            if (path.endsWith(".js")) {
+                res.setHeader("Content-Type", "application/javascript");
+            }
+        },
+    })
+);
 app.use(expressLayouts);
 //Allows the app to access the body of an html element
 app.use(express.json());
@@ -45,16 +53,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride("_method"));
-
-app.use(
-    express.static("public", {
-        setHeaders: (res, path) => {
-            if (path.endsWith(".js")) {
-                res.setHeader("Content-Type", "application/javascript");
-            }
-        },
-    })
-);
 
 let users = [];
 
