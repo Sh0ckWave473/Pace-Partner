@@ -32,6 +32,7 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(expressLayouts);
 //Allows the app to access the body of an html element
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(flash());
 app.use(
@@ -228,14 +229,51 @@ app.route("/paceCalc")
         }
     });
 
+let calendar = "";
+
+app.route("/preserve-calendar").post((req, res) => {
+    calendar = req.body.calendar;
+});
+app.route("/save-calendar").post((req, res) => {
+    calendar = req.body.calendar;
+    User.findOneAndUpdate(
+        { username: req.user.username },
+        { calendar: calendar },
+        { new: true }
+    )
+        .then((user) => {
+            console.log("Calendar saved for user: " + user.username);
+            res.render("calendar", {
+                user: user.username,
+                calendar: user.calendar,
+                messages: "Calendar saved successfully",
+            });
+        })
+        .catch((err) => {
+            console.log("Error: " + err);
+            res.render("calendar", {
+                user: user.username,
+                messages: "Error when saving calendar",
+            });
+        });
+});
+
 app.route("/calendar")
     .get((req, res) => {
-        if (req.isAuthenticated())
-            res.render("calendar", { user: req.user.username });
-        else
+        if (req.isAuthenticated()) {
+            User.findOne({ username: req.user.username }).then((user) => {
+                if (user.calendar) calendar = user.calendar;
+                else
+                    res.render("calendar", {
+                        user: req.user.username,
+                        messages: "No previously saved calendar found!",
+                    });
+            });
+        } else {
             res.render("login", {
                 messages: "You must be logged in to view this page!",
             });
+        }
     })
     .post((req, res) => {
         let inputDays = req.body.calendarLength;
@@ -259,6 +297,7 @@ app.route("/calendar")
     });
 
 app.delete("/logout", (req, res) => {
+    calendar = "";
     req.logOut(function (e) {
         if (e) return next(e);
         res.redirect("/");

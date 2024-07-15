@@ -34,6 +34,8 @@
             </label>
             <br />
             <input id="calendarButton" type="submit" value="Generate your calendar!"></input>
+            <input id="resetButton" type="submit" value="Reset"></input>
+            <input id="saveButton" type="submit" value="Save your calendar!"></input>
         </div>
         <div id="schedule-wrapper">
             <div id="schedule-header">
@@ -50,47 +52,8 @@
                     <th>Sunday</th>
                 </thead>
                 <tbody id="schedule-body">
-
+                    <%- locals.calendar %>
                 </tbody>
             </table>
-            <script>
-                document
-                    .getElementById("calendarButton")
-                    .addEventListener("click", function (e) {
-                        e.preventDefault();
-                        let weeks = parseInt(document.getElementById("calendarLength").value);
-                        let daysGenerated = 0;
-                        let weeksGenerated = 0;
-                        if (weeks >= 1 && weeks <= 10 && !(document.getElementById("day1"))) {
-                            while (daysGenerated != weeks * 7) {
-                                if (daysGenerated % 7 == 0) {
-                                    weeksGenerated++;
-                                    let week = document.createElement("tr");
-                                    week.id = "week" + weeksGenerated;
-                                    document.getElementById("schedule-body").appendChild(week);
-                                }
-                                daysGenerated++;
-                                let day = document.createElement("td");
-                                day.id = "day" + daysGenerated;
-                                day.textContent = "Day " + daysGenerated;
-                                day.classList = "day-style";
-                                document
-                                    .getElementById("week" + weeksGenerated)
-                                    .appendChild(day);
-                            }
-                            for (let i = 1; i < weeks * 7; i++) {
-                                let day = document.getElementById("day" + i);
-                                day.addEventListener("click", (e) => {
-                                    e.preventDefault();
-                                    let input = prompt("Plan your run for today!");
-                                    if (day.children.length == 1 && input)
-                                        day.removeChild(day.children[0]);
-                                    describedDay = document.createElement("div");
-                                    describedDay.textContent = input;
-                                    day.appendChild(describedDay);
-                                });
-                            }
-                        }
-                    });
-            </script>
         </div>
+        <script src="./Js/script.js"></script>
