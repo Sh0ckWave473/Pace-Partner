@@ -62,7 +62,10 @@
                 let weeks = parseInt(document.getElementById("calendarLength").value);
                 let daysGenerated = 0;
                 let weeksGenerated = 0;
-                if (weeks >= 1 && weeks <= 10 && !document.getElementById("day1")) {
+                if (weeks > 20) alert("We limit the number of weeks at 20");
+                else if (weeks < 1) alert("Input a positive number");
+                else if (document.getElementById("day1")) alert("There is already a generated calendar");
+                else {
                     while (daysGenerated != weeks * 7) {
                         if (daysGenerated % 7 == 0) {
                             weeksGenerated++;
@@ -85,7 +88,7 @@
                         day.appendChild(dayContent);
                         document.getElementById("week" + weeksGenerated).appendChild(day);
                     }
-                    for (let i = 1; i < weeks * 7; i++) {
+                    for (let i = 1; i <= weeks * 7; i++) {
                         let day = document.getElementById("day" + i);
                         day.addEventListener("click", (e) => {
                             e.preventDefault();
@@ -105,13 +108,31 @@
             });
             document.getElementById("saveButton").addEventListener("click", (e) => {
                 e.preventDefault();
+                let week = document.getElementById("week1");
+                let daysWithContent = [];
+                let numWeeks = 0;
+                let numDays = 0;
+                while (week) {
+                    numWeeks++;
+                    let day = week.firstElementChild;
+                    while (day) {
+                        numDays++;
+                        if (day.children[1].textContent !== "")
+                            daysWithContent.push(numDays + ":" + day.children[1].textContent);
+                        day = day.nextElementSibling;
+                    }
+                    week = week.nextElementSibling;
+                }
+                alert(daysWithContent);
                 navigator.sendBeacon(
                     "/save-calendar",
                     new Blob(
                         [
                             JSON.stringify({
-                                calendar:
-                                    document.getElementById("schedule-body").innerHTML,
+                                numWeeks:
+                                    numWeeks,
+                                content:
+                                    daysWithContent.toString(),
                             }),
                         ],
                         { type: "application/json" }

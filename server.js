@@ -243,17 +243,20 @@ app.route("/preserve-calendar").post((req, res) => {
     calendar = req.body.calendar;
 });
 app.route("/save-calendar").post((req, res) => {
-    calendar = req.body.calendar;
+    let numWeeks = req.body.numWeeks;
+    let daysWithContent = req.body.content;
+    console.log("Saved: " + numWeeks + ":" + daysWithContent);
     User.findOneAndUpdate(
         { username: req.user.username },
-        { calendar: calendar },
+        { numWeeks: numWeeks, daysWithContent: daysWithContent },
         { new: true }
     )
         .then((user) => {
             console.log("Calendar saved for user: " + user.username);
+            calendar = parseCalendar(user.numWeeks, user.daysWithContent);
             res.render("calendar", {
                 user: user.username,
-                calendar: user.calendar,
+                calendar: calendar,
                 messages: "Calendar saved successfully",
             });
         })
@@ -272,11 +275,14 @@ app.route("/calendar")
             console.log("Finding User...");
             User.findOne({ username: req.user.username }).then((user) => {
                 console.log("User found: " + user.username);
-                if (user.calendar) {
-                    calendar = user.calendar;
+                if (user.numWeeks) {
+                    calendar = parseCalendar(
+                        user.numWeeks,
+                        user.daysWithContent
+                    );
                     res.render("calendar", {
                         user: user.username,
-                        calendar: user.calendar,
+                        calendar: calendar,
                         messages: "Previously saved calendar found",
                     });
                 } else
@@ -328,3 +334,29 @@ function checkAuthenticated(req, res, next) {
 app.listen(PORT, function () {
     console.log(`Server is running on port ${PORT}, http://localhost:3000`);
 });
+
+const parseCalendar = (numWeeks, daysWithContent) => {
+    let daysGenerated = 0;
+    let weeksGenerated = 0;
+    let calendar = "";
+    let contentArr = daysWithContent?.split(",");
+    console.log("Parsing: " + numWeeks + ":" + contentArr);
+    while (daysGenerated != numWeeks * 7) {
+        if (daysGenerated % 7 == 0) {
+            if (weeksGenerated !== 0) calendar += `</tr>`;
+            weeksGenerated++;
+            calendar += `<tr id="week${weeksGenerated}">`;
+        }
+        daysGenerated++;
+        let firstElement = null;
+        if (contentArr[0]) firstElement = contentArr[0].split(":");
+        if (firstElement && parseInt(firstElement[0]) === daysGenerated) {
+            calendar += `<td id="day${daysGenerated}" class="day-style"><div id="day${daysGenerated}-header" class="day-header">
+                            Day ${daysGenerated}</div><div id="day${daysGenerated}-content" class="day-content">${firstElement[1]}</div></td>`;
+            contentArr.shift();
+        } else
+            calendar += `<td id="day${daysGenerated}" class="day-style"><div id="day${daysGenerated}-header" class="day-header">
+                            Day ${daysGenerated}</div><div id="day${daysGenerated}-content" class="day-content"></div></td>`;
+    }
+    return calendar + "</tr>";
+};
