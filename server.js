@@ -180,20 +180,22 @@ app.route("/paceCalc")
     .post((req, res) => {
         let inputDistance = req.body.distance;
         let inputPRHour = req.body.prH;
-        if (!inputPRHour) inputPRHour = 0;
         let inputPRMinute = req.body.prM;
         let inputPRSecond = req.body.prS;
+        if (!inputPRHour) inputPRHour = 0;
+        if (!inputPRMinute) inputPRMinute = 0;
+        if (!inputPRSecond) inputPRSecond = 0;
         let inputPR =
             parseInt(inputPRHour) * 3600 +
             parseInt(inputPRMinute) * 60 +
             parseInt(inputPRSecond);
-        console.log("PR " + inputPR);
+        console.log("Distance " + inputDistance);
         let inputVO2 = req.body.vO2;
         let inputDays = req.body.days;
         let inputWorkouts = req.body.workouts;
         let error = "";
 
-        if (!inputPRMinute || !inputPRSecond) {
+        if (inputPR === 0) {
             error = "Input a valid PR time";
             inputPR = 0;
             res.render("paceCalc", {
@@ -204,6 +206,10 @@ app.route("/paceCalc")
                 repeat: 0,
                 twoMilePR: 0,
                 v02: 0,
+                prH: inputPRHour,
+                prM: inputPRMinute,
+                prS: inputPRSecond,
+                distance: inputDistance,
                 user: req.user.username,
                 messages: error,
             });
@@ -226,6 +232,10 @@ app.route("/paceCalc")
                     interval: arr[4],
                     repeat: arr[5],
                     v02: arr[0],
+                    prH: inputPRHour,
+                    prM: inputPRMinute,
+                    prS: inputPRSecond,
+                    distance: inputDistance,
                     user: req.user.username,
                     messages: error,
                 });

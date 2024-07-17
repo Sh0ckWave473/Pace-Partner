@@ -1,8 +1,6 @@
 <div id="navContainer">
     <nav>
-        <a id="logo" href="/">
-            Pace Partner
-        </a>
+        <a id="logo" href="/"></a>
         <div id="nav-links">
             <a href="/paceCalc" id="link">Pace Calculator</a>
             <a href="/calendar" id="link">Calendar</a>
@@ -31,7 +29,7 @@ Hello <%= locals.user %>!
                 <form id="pRForm" action="/paceCalc" method="post">
                     <label>
                         Recent PR Distance:
-                        <select name="distance">
+                        <select id="distance" name="distance">
                             <option value="1500m">1500m</option>
                             <option value="1 mile">1 mile</option>
                             <option value="3k">3k</option>
@@ -45,11 +43,14 @@ Hello <%= locals.user %>!
                     <br />
                     <label>
                         PR (HH:MM:SS):
-                        <input type="text" name="prH" placeholder="00"></input>
+                        <input type="text" name="prH" placeholder="00" value="<%= locals.prH %>">
+                        </input>
                         :&nbsp;
-                        <input type="text" name="prM" placeholder="00"></input>
+                        <input type="text" name="prM" placeholder="00" value="<%= locals.prM %>">
+                        </input>
                         :&nbsp;
-                        <input type="text" name="prS" placeholder="00"></input>
+                        <input type="text" name="prS" placeholder="00" value="<%= locals.prS %>">
+                        </input>
                     </label>
                     <br />
                     <input type="submit" value="See your running paces!"></input>
@@ -108,3 +109,10 @@ Hello <%= locals.user %>!
                     just a separate indicator of how difficult the run was.
                 </p>
             </div>
+            <script>
+                let value = "<%= locals.distance %>";
+                if (value)
+                    document.getElementById("distance").value = value;
+                else
+                    document.getElementById("distance").value = "1500m";
+            </script>
