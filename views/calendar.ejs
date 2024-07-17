@@ -1,13 +1,17 @@
 <div id="navContainer">
     <nav>
-        <a id="logo" href="/"></a>
+        <div id="logo">
+            <a href="/">
+                <img src="./imgs/PacePartnerLogo.png" alt="Logo" width="50">
+            </a>
+        </div>
         <div id="nav-links">
             <a href="/paceCalc" id="link">Pace Calculator</a>
             <a href="/calendar" id="link">Calendar</a>
-            <form id="link" action="/logout?_method=DELETE" method="POST">
-                <button id="link" style="background: none; border: none;" type="submit">Logout</button>
-            </form>
         </div>
+        <form id="login-logout" action="/logout?_method=DELETE" method="POST">
+            <button style="border: none; font: unset;" type="submit">Logout</button>
+        </form>
     </nav>
 </div>
 <h1>Calendar</h1>

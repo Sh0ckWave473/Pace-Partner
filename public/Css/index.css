@@ -25,42 +25,57 @@ nav {
     border: 2px rgb(0, 0, 0) solid;
     padding: 10px;
     display: flex;
+    white-space: nowrap;
     justify-content: space-between;
     z-index: 999;
 }
 
-#logo {
-    background-image: url("../imgs/PacePartnerLogo.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 10%;
-    height: 4rem;
-}
-
-#link:hover {
+#link:hover, #login-logout > *:hover {
     background-color: rgba(255, 95, 95, 0.496);
     cursor: pointer;
     scale: unset;
 }
 
-#link {
-    all: unset;
-    position: relative;
+#logo {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    color: rgb(0, 0, 0);
-    font-size: clamp(1.5vw, 100%, 3vw);
-    width: 100%;
-    height: 100%;
-    transition: background-color 0.3s ease;
+    width: max-content;
+    justify-content: start;
+    flex: 25%;
 }
 
 #nav-links {
     display: flex;
-    width: 50%;
+    justify-content: center;
+    align-self: center;
+    width: max-content;
+    flex: 50%;
+}
+
+#link {
+    display: inline-block;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    padding: 2%;
+    border-radius: 5%;
+    transition: background-color 0.3s ease;
+}
+
+#login-logout {
+    display: flex;
+    align-self: center;
+    text-decoration: none;
+    flex: 25%;
+    justify-content: flex-end;
+}
+
+#login-logout > * {
+    align-self: center;
+    background-color: white;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    padding: 4%;
+    border-radius: 5%;
+    transition: background-color 0.3s ease;
 }
 
 #demoContainer {

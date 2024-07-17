@@ -1,118 +1,122 @@
 <div id="navContainer">
     <nav>
-        <a id="logo" href="/"></a>
+        <div id="logo">
+            <a href="/">
+                <img src="./imgs/PacePartnerLogo.png" alt="Logo" width="50">
+            </a>
+        </div>
         <div id="nav-links">
             <a href="/paceCalc" id="link">Pace Calculator</a>
             <a href="/calendar" id="link">Calendar</a>
-            <form id="link" action="/logout?_method=DELETE" method="POST">
-                <button id="link" style="background: none; border: none;" type="submit">Logout</button>
-            </form>
         </div>
+        <form id="login-logout" action="/logout?_method=DELETE" method="POST">
+            <button id="link" style="border: none; font: unset;" type="submit">Logout</button>
+        </form>
     </nav>
 </div>
 <h1>Pace Calculator</h1>
-Hello <%= locals.user %>!
-    <% if(JSON.stringify(messages) !=="{}" && messages !=="" ) { %>
-        <div id="alert">
-            <%= locals.messages %>
-                <button type="button" id="close">
-                    <span>&times;</span>
-                </button>
-                <script>
-                    document.getElementById('close').addEventListener("click", () =>
-                        document.getElementById('alert').remove()
-                    );
-                </script>
-        </div>
-        <% } %>
-            <div id="calc-wrapper">
-                <form id="pRForm" action="/paceCalc" method="post">
-                    <label>
-                        Recent PR Distance:
-                        <select id="distance" name="distance">
-                            <option value="1500m">1500m</option>
-                            <option value="1 mile">1 mile</option>
-                            <option value="3k">3k</option>
-                            <option value="2 mile">2 mile</option>
-                            <option value="5k">5k</option>
-                            <option value="10k">10k</option>
-                            <option value="Half-Marathon">Half-Marathon</option>
-                            <option value="Marathon">Marathon</option>
-                        </select>
-                    </label>
-                    <br />
-                    <label>
-                        PR (HH:MM:SS):
-                        <input type="text" name="prH" placeholder="00" value="<%= locals.prH %>">
-                        </input>
-                        :&nbsp;
-                        <input type="text" name="prM" placeholder="00" value="<%= locals.prM %>">
-                        </input>
-                        :&nbsp;
-                        <input type="text" name="prS" placeholder="00" value="<%= locals.prS %>">
-                        </input>
-                    </label>
-                    <br />
-                    <input type="submit" value="See your running paces!"></input>
-                </form>
-                <div className="results">
-                    <div className="Easy">Easy Pace: <%= locals.easy %>
-                    </div>
-                    <div className="Marathon">Marathon Pace: <%= locals.marathon %>
-                    </div>
-                    <div className="Threshold">Threshold Pace: <%= locals.threshold %>
-                    </div>
-                    <div className="Interval">Interval 400m Pace: <%= locals.interval %>
-                    </div>
-                    <div className="Repeat">Repeat 400m Pace: <%= locals.repeat %>
-                    </div>
-                    <div className="v02">
-                        V02: <%= locals.v02 %>
-                    </div>
+<p style="padding-inline: 2%">Hello <%= locals.user %>!</p>
+<% if(JSON.stringify(messages) !=="{}" && messages !=="" ) { %>
+    <div id="alert">
+        <%= locals.messages %>
+            <button type="button" id="close">
+                <span>&times;</span>
+            </button>
+            <script>
+                document.getElementById('close').addEventListener("click", () =>
+                    document.getElementById('alert').remove()
+                );
+            </script>
+    </div>
+    <% } %>
+        <div id="calc-wrapper">
+            <form id="pRForm" action="/paceCalc" method="post">
+                <label>
+                    Recent PR Distance:
+                    <select id="distance" name="distance">
+                        <option value="1500m">1500m</option>
+                        <option value="1 mile">1 mile</option>
+                        <option value="3k">3k</option>
+                        <option value="2 mile">2 mile</option>
+                        <option value="5k">5k</option>
+                        <option value="10k">10k</option>
+                        <option value="Half-Marathon">Half-Marathon</option>
+                        <option value="Marathon">Marathon</option>
+                    </select>
+                </label>
+                <br />
+                <label>
+                    PR (HH:MM:SS):
+                    <input type="text" name="prH" placeholder="00" value="<%= locals.prH %>">
+                    </input>
+                    :&nbsp;
+                    <input type="text" name="prM" placeholder="00" value="<%= locals.prM %>">
+                    </input>
+                    :&nbsp;
+                    <input type="text" name="prS" placeholder="00" value="<%= locals.prS %>">
+                    </input>
+                </label>
+                <br />
+                <input type="submit" value="See your running paces!"></input>
+            </form>
+            <div className="results">
+                <div className="Easy">Easy Pace: <%= locals.easy %>
+                </div>
+                <div className="Marathon">Marathon Pace: <%= locals.marathon %>
+                </div>
+                <div className="Threshold">Threshold Pace: <%= locals.threshold %>
+                </div>
+                <div className="Interval">Interval 400m Pace: <%= locals.interval %>
+                </div>
+                <div className="Repeat">Repeat 400m Pace: <%= locals.repeat %>
+                </div>
+                <div className="v02">
+                    V02: <%= locals.v02 %>
                 </div>
             </div>
-            <div className="tips">
-                <h2>Tips for improving your pace and achieving a personal best:</h2>
-                <h4>Heart Rate:</h4>
-                <p>
-                    Although they are not necessary, heart rate monitors are a great way
-                    to gain extra insight on how your body is feeling during a run. Heart
-                    rate is also a good indicator of how hard a workout was for you and
-                    can help you determine whether your effort was too difficult, too
-                    easy, or just right. Here are some guidelines as to what to look for
-                    in terms of your heart rate during a run.
-                </p>
-                <ul>
-                    <li>Easy Runs: 65% - 79% Max HR</li>
-                    <li>Marathon / Medium Runs: 80% - 90% Max HR</li>
-                    <li>Threshold Runs: 88% - 92% Max HR</li>
-                    <li>Interval Runs: 98% - 100% Max HR</li>
-                    <li>
-                        Repeats Runs: 100% (Generally, you are pushing your body to its
-                        upper limits)
-                    </li>
-                </ul>
-                <p>
-                    A general rule of thumb for your Max HR is to start with 220 bpm and
-                    subtract your age. For example someone who is 20 years old would have
-                    a Max HR of 200 bpm. Here is their running breakdown:
-                </p>
-                <ul>
-                    <li>Easy Runs: 130 - 158 BPM</li>
-                    <li>Marathon / Medium Runs: 160 - 180 BPM</li>
-                    <li>Threshold Runs: 176 - 184 BPM</li>
-                    <li>Interval Runs: 196 - 200 BPM</li>
-                    <li>Repeats Runs: 200 BPM</li>
-                </ul>
-                <p>
-                    Note: Hitting your max BPM for workouts is not necessary at all. It is
-                    just a separate indicator of how difficult the run was.
-                </p>
-            </div>
-            <script>
-                let value = "<%= locals.distance %>";
-                if (value)
-                    document.getElementById("distance").value = value;
-                else
-                    document.getElementById("distance").value = "1500m";
-            </script>
+        </div>
+        <div className="tips" style="padding: 2%">
+            <h2>Tips for improving your pace and achieving a personal best:</h2>
+            <h4>Heart Rate:</h4>
+            <p>
+                Although they are not necessary, heart rate monitors are a great way
+                to gain extra insight on how your body is feeling during a run. Heart
+                rate is also a good indicator of how hard a workout was for you and
+                can help you determine whether your effort was too difficult, too
+                easy, or just right. Here are some guidelines as to what to look for
+                in terms of your heart rate during a run.
+            </p>
+            <ul>
+                <li>Easy Runs: 65% - 79% Max HR</li>
+                <li>Marathon / Medium Runs: 80% - 90% Max HR</li>
+                <li>Threshold Runs: 88% - 92% Max HR</li>
+                <li>Interval Runs: 98% - 100% Max HR</li>
+                <li>
+                    Repeats Runs: 100% (Generally, you are pushing your body to its
+                    upper limits)
+                </li>
+            </ul>
+            <p>
+                A general rule of thumb for your Max HR is to start with 220 bpm and
+                subtract your age. For example someone who is 20 years old would have
+                a Max HR of 200 bpm. Here is their running breakdown:
+            </p>
+            <ul>
+                <li>Easy Runs: 130 - 158 BPM</li>
+                <li>Marathon / Medium Runs: 160 - 180 BPM</li>
+                <li>Threshold Runs: 176 - 184 BPM</li>
+                <li>Interval Runs: 196 - 200 BPM</li>
+                <li>Repeats Runs: 200 BPM</li>
+            </ul>
+            <p>
+                Note: Hitting your max BPM for workouts is not necessary at all. It is
+                just a separate indicator of how difficult the run was.
+            </p>
+        </div>
+        <script>
+            let value = "<%= locals.distance %>";
+            if (value)
+                document.getElementById("distance").value = value;
+            else
+                document.getElementById("distance").value = "1500m";
+        </script>
