@@ -2,6 +2,7 @@ body {
     margin: 0%;
     overflow-x: hidden;
     padding-top: 5%;
+
 }
 
 #mainContainer {
@@ -30,11 +31,6 @@ nav {
     z-index: 999;
 }
 
-#link:hover, #login-logout > *:hover {
-    background-color: rgba(255, 95, 95, 0.496);
-    cursor: pointer;
-    scale: unset;
-}
 
 #logo {
     display: flex;
@@ -56,11 +52,13 @@ nav {
     text-decoration: none;
     color: rgb(0, 0, 0);
     padding: 2%;
+    margin-inline: 2%;
     border-radius: 5%;
+    background-color: rgba(255, 95, 95, 0.259);
     transition: background-color 0.3s ease;
 }
 
-#login-logout {
+#login, #logout {
     display: flex;
     align-self: center;
     text-decoration: none;
@@ -68,14 +66,23 @@ nav {
     justify-content: flex-end;
 }
 
-#login-logout > * {
+
+#login > *, #logout > * {
     align-self: center;
     background-color: white;
     text-decoration: none;
     color: rgb(0, 0, 0);
     padding: 4%;
     border-radius: 5%;
+    background-color: rgba(255, 95, 95, 0.259);
     transition: background-color 0.3s ease;
+}
+
+#link:hover, #login > *:hover, #logout > *:hover, 
+#calc-wrapper > form > input:hover, #calendarButtons > input:hover {
+    background-color: rgba(255, 95, 95);
+    cursor: pointer;
+    scale: unset;
 }
 
 #demoContainer {
@@ -130,7 +137,7 @@ h1 {
     align-self: center;
     background-color: lightcoral;
     inline-size: fit-content;
-    color: crimson;
+    color: white;
     max-width: fit-content;
     margin-inline: auto;
 }
@@ -210,13 +217,76 @@ h1 {
 
 #calc-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    flex-direction: row;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-inline: 5%;
+    padding-block: 5%;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.892);
+}
+
+#calc-wrapper > form > input, #calendarButtons > input {
+    background-color: rgb(187, 27, 27);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#pRForm, #weeks {
+    flex: 50%;
+    border-radius: 5px;
+    margin-inline: 5%;
+    padding: 2%;
+    color: white;
+    background-color: rgb(79, 79, 79);
+
+}
+
+#PR > input {
+    padding: 0.5rem;
+    border-radius: 5%;
+}
+
+#distance {
+    padding-inline: 0.5rem;
+    padding-block: 0.25rem;
+    border-radius: 5%;
+}
+
+#results, #calendarButtons {
+    display: flex;
     flex-direction: column;
-    padding: 2rem;
+    flex: 50%;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-inline: 5%;
+    padding: 2%;
+    color: white;
+    background-color: rgb(79, 79, 79);
 }
 
 .day-style {
-    justify-content: center;
-    padding: 2rem;
-    background-color: rgb(255, 134, 134);
+    padding: 1rem;
+    background-color: rgba(178, 34, 34, 0.7);
+    border: solid black;
+    border-radius: 2%;
+    color: white;
+    transition: background-color 0.3s ease;
+    width: 8vw;
+    max-width: 8vw;
+    min-width: 8vw;
+}
+
+.day-style:hover {
+    background-color: rgb(255 95 95);
+    cursor: pointer;
+}
+
+.day-style > div {
+    background-color: rgba(178, 34, 34);
+    margin-block: 0.5rem;
+    overflow-x: hidden;
 }

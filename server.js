@@ -205,7 +205,7 @@ app.route("/paceCalc")
                 interval: 0,
                 repeat: 0,
                 twoMilePR: 0,
-                v02: 0,
+                vO2: 0,
                 prH: inputPRHour,
                 prM: inputPRMinute,
                 prS: inputPRSecond,
@@ -226,12 +226,12 @@ app.route("/paceCalc")
                 data = data + "";
                 let arr = data.split(" ");
                 res.render("paceCalc", {
-                    easy: arr[1],
+                    easy: arr[1] + "+",
                     marathon: arr[2],
-                    threshold: arr[3],
+                    threshold: arr[3] + "-" + arr[2],
                     interval: arr[4],
                     repeat: arr[5],
-                    v02: arr[0],
+                    vO2: arr[0],
                     prH: inputPRHour,
                     prM: inputPRMinute,
                     prS: inputPRSecond,

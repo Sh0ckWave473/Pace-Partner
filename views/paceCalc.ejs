@@ -9,7 +9,7 @@
             <a href="/paceCalc" id="link">Pace Calculator</a>
             <a href="/calendar" id="link">Calendar</a>
         </div>
-        <form id="login-logout" action="/logout?_method=DELETE" method="POST">
+        <form id="logout" action="/logout?_method=DELETE" method="POST">
             <button id="link" style="border: none; font: unset;" type="submit">Logout</button>
         </form>
     </nav>
@@ -31,9 +31,11 @@
     <% } %>
         <div id="calc-wrapper">
             <form id="pRForm" action="/paceCalc" method="post">
+                <div>Input your PR and get tailored paces for your runs</div>
                 <label>
-                    Recent PR Distance:
-                    <select id="distance" name="distance">
+                    Distance:
+                    <br />
+                    <select id="distance" name="distance" value="Select a distance">
                         <option value="1500m">1500m</option>
                         <option value="1 mile">1 mile</option>
                         <option value="3k">3k</option>
@@ -45,21 +47,23 @@
                     </select>
                 </label>
                 <br />
-                <label>
-                    PR (HH:MM:SS):
-                    <input type="text" name="prH" placeholder="00" value="<%= locals.prH %>">
+                <label id="PR">
+                    PR Time:
+                    <br />
+                    <input type="number" min="0" max="59" name="prH" placeholder="HH" value="<%= locals.prH %>">
                     </input>
-                    :&nbsp;
-                    <input type="text" name="prM" placeholder="00" value="<%= locals.prM %>">
+                    <input type="number" min="0" max="59" name="prM" placeholder="MM" value="<%= locals.prM %>">
                     </input>
-                    :&nbsp;
-                    <input type="text" name="prS" placeholder="00" value="<%= locals.prS %>">
+                    <input type="number" min="0" max="59" name="prS" placeholder="SS" value="<%= locals.prS %>">
                     </input>
                 </label>
                 <br />
                 <input type="submit" value="See your running paces!"></input>
             </form>
-            <div className="results">
+            <div id="results">
+                <div className="vO2">
+                    VO2: <%= locals.vO2 %>
+                </div>
                 <div className="Easy">Easy Pace: <%= locals.easy %>
                 </div>
                 <div className="Marathon">Marathon Pace: <%= locals.marathon %>
@@ -69,9 +73,6 @@
                 <div className="Interval">Interval 400m Pace: <%= locals.interval %>
                 </div>
                 <div className="Repeat">Repeat 400m Pace: <%= locals.repeat %>
-                </div>
-                <div className="v02">
-                    V02: <%= locals.v02 %>
                 </div>
             </div>
         </div>
@@ -99,7 +100,9 @@
             <p>
                 A general rule of thumb for your Max HR is to start with 220 bpm and
                 subtract your age. For example someone who is 20 years old would have
-                a Max HR of 200 bpm. Here is their running breakdown:
+                a Max HR of 200 bpm. <strong>However</strong>, this can be sometimes unreliable so the best
+                way to go is to know your max HR which you can find out by running an all
+                out 2 mile. Here is the running breakdown for someone with a 220 bpm Max HR:
             </p>
             <ul>
                 <li>Easy Runs: 130 - 158 BPM</li>

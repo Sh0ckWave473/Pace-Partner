@@ -9,7 +9,7 @@
             <a href="/paceCalc" id="link">Pace Calculator</a>
             <a href="/calendar" id="link">Calendar</a>
         </div>
-        <form id="login-logout" action="/logout?_method=DELETE" method="POST">
+        <form id="logout" action="/logout?_method=DELETE" method="POST">
             <button style="border: none; font: unset;" type="submit">Logout</button>
         </form>
     </nav>
@@ -29,18 +29,20 @@
     </div>
     <% } %>
         <div id="calc-wrapper">
-            <label>
+            <label id="weeks">
                 Number of Weeks Before your Race:
-                <input type="text" id="calendarLength" name="calendarLength" placeholder="0"></input>
+                <input type="number" id="calendarLength" min="1" max="20" name="calendarLength" placeholder="0"></input>
             </label>
             <br />
-            <input id="calendarButton" type="submit" value="Generate your calendar!"></input>
-            <input id="resetButton" type="submit" value="Reset"></input>
-            <input id="saveButton" type="submit" value="Save your calendar!"></input>
+            <div id="calendarButtons">
+                <input id="calendarButton" type="submit" value="Generate your calendar!"></input>
+                <input id="resetButton" type="submit" value="Reset"></input>
+                <input id="saveButton" type="submit" value="Save your calendar!"></input>
+            </div>
         </div>
         <div id="schedule-wrapper">
             <div id="schedule-header">
-                Note: This data is not saved so do not put any important information on here yet
+                <h2>Your Training Schedule</h2>
             </div>
             <table id="schedule">
                 <thead id="schedule-head">
