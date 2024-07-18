@@ -30,19 +30,23 @@
     <% } %>
         <div id="calc-wrapper">
             <label id="weeks">
-                Number of Weeks Before your Race:
-                <input type="number" id="calendarLength" min="1" max="20" name="calendarLength" placeholder="0"></input>
+                Number of Days for your Training Block:
+                <input type="number" id="calendarLength" min="1" max="150" name="calendarLength"
+                    placeholder="0"></input>
             </label>
             <br />
             <div id="calendarButtons">
                 <input id="calendarButton" type="submit" value="Generate your calendar!"></input>
                 <input id="resetButton" type="submit" value="Reset"></input>
-                <input id="saveButton" type="submit" value="Save your calendar!"></input>
             </div>
         </div>
         <div id="schedule-wrapper">
             <div id="schedule-header">
                 <h2>Your Training Schedule</h2>
+            </div>
+            <div id="addRemoveContainer">
+                <div id="addButton">+</div>
+                <div id="removeButton">-</div>
             </div>
             <table id="schedule">
                 <thead id="schedule-head">
@@ -59,18 +63,35 @@
                 </tbody>
             </table>
         </div>
+        <div id="popup" class="hidden">
+            <div id="popup-content">
+                <h3>Plan the day for today!</h3>
+                <select id="dropdown" value="Type of Run">
+                    <option value="Easy">Easy</option>
+                    <option value="Workout">Workout</option>
+                    <option value="Race">Race</option>
+                </select>
+                <textarea id="textarea" placeholder="Describe the day here"></textarea>
+                <div id="popup-buttons">
+                    <button id="confirmButton">Confirm</button>
+                    <button id="cancelButton">Cancel</button>
+                </div>
+            </div>
+        </div>
         <!-- <script src="./Js/script.js" type="text/javascript"></script> -->
         <script>
+            let daysGenerated = 0;
+            let weeksGenerated = 0;
+
             document.getElementById("calendarButton").addEventListener("click", (e) => {
                 e.preventDefault();
-                let weeks = parseInt(document.getElementById("calendarLength").value);
-                let daysGenerated = 0;
-                let weeksGenerated = 0;
-                if (weeks > 20) alert("We limit the number of weeks at 20");
-                else if (weeks < 1) alert("Input a positive number");
+                let days = parseInt(document.getElementById("calendarLength").value);
+                if (isNaN(days)) alert("Input a number");
+                else if (days > 150) alert("We limit the number of days at 150");
+                else if (days < 1) alert("Input a positive number");
                 else if (document.getElementById("day1")) alert("There is already a generated calendar");
                 else {
-                    while (daysGenerated != weeks * 7) {
+                    while (daysGenerated != days) {
                         if (daysGenerated % 7 == 0) {
                             weeksGenerated++;
                             let week = document.createElement("tr");
@@ -92,87 +113,135 @@
                         day.appendChild(dayContent);
                         document.getElementById("week" + weeksGenerated).appendChild(day);
                     }
-                    for (let i = 1; i <= weeks * 7; i++) {
+
+                    if (daysGenerated % 7 === 0) {
+                        weeksGenerated++;
+                        let week = document.createElement("tr");
+                        week.id = "week" + weeksGenerated;
+                        document.getElementById("schedule-body").appendChild(week);
+                    }
+
+                    for (let i = 1; i <= days; i++) {
                         let day = document.getElementById("day" + i);
-                        day.addEventListener("click", (e) => {
-                            e.preventDefault();
-                            let input = prompt("Plan your run for today!");
-                            while (input === "") input = prompt("Plan your run for today!");
-                            if (input) {
-                                console.log(input);
-                                day.children[1].textContent = input;
-                            }
-                        });
+                        day.addEventListener("click", (e) => dayClicked(e.currentTarget));
                     }
                 }
             });
+
             document.getElementById("resetButton").addEventListener("click", (e) => {
-                e.preventDefault();
-                document.getElementById("schedule-body").innerHTML = "";
+                if (confirm("Are you sure you want to reset your calendar?")) {
+                    document.getElementById("schedule-body").innerHTML = "";
+                    daysGenerated = 0;
+                    weeksGenerated = 0;
+                }
             });
-            document.getElementById("saveButton").addEventListener("click", (e) => {
-                e.preventDefault();
+
+            window.addEventListener("beforeunload", (e) => {
                 let week = document.getElementById("week1");
                 let daysWithContent = [];
-                let numWeeks = 0;
-                let numDays = 0;
-                while (week) {
-                    numWeeks++;
-                    let day = week.firstElementChild;
-                    while (day) {
-                        numDays++;
-                        if (day.children[1].textContent !== "")
-                            daysWithContent.push(numDays + ":" + day.children[1].textContent);
-                        day = day.nextElementSibling;
+                let content = [];
+                for (let i = 1; i <= daysGenerated; i++) {
+                    let day = document.getElementById("day" + i);
+                    if (day.children[1].textContent !== "") {
+                        daysWithContent.push(i);
+                        content.push(day.children[1].textContent);
                     }
-                    week = week.nextElementSibling;
                 }
-                alert(daysWithContent);
                 navigator.sendBeacon(
                     "/save-calendar",
                     new Blob(
                         [
                             JSON.stringify({
-                                numWeeks:
-                                    numWeeks,
+                                numDays:
+                                    daysGenerated,
+                                daysWithContent:
+                                    daysWithContent,
                                 content:
-                                    daysWithContent.toString(),
+                                    content,
                             }),
                         ],
                         { type: "application/json" }
                     )
                 );
             });
-            window.addEventListener("beforeunload", () => {
-                navigator.sendBeacon(
-                    "/preserve-calendar",
-                    new Blob(
-                        [
-                            JSON.stringify({
-                                calendar:
-                                    document.getElementById("schedule-body").innerHTML,
-                            }),
-                        ],
-                        { type: "application/json" }
-                    )
-                );
-            });
+
             document.addEventListener("DOMContentLoaded", () => {
-                let i = 1;
+                let i = 1
                 let day = document.getElementById("day" + i);
                 while (day) {
-                    console.log(day);
-                    day.addEventListener("click", (e) => {
-                        e.preventDefault();
-                        let input = prompt("Plan your run for today!");
-                        while (input === "") input = prompt("Plan your run for today!");
-                        if (input) {
-                            console.log(input);
-                            e.currentTarget.children[1].textContent = input;
-                        }
-                    });
+                    day.addEventListener("click", (e) => dayClicked(e.currentTarget));
                     i++;
                     day = document.getElementById("day" + i);
                 }
+                daysGenerated = i - 1;
+                weeksGenerated = Math.ceil(daysGenerated / 7);
+                console.log(daysGenerated);
+                console.log(weeksGenerated);
             });
+
+            document.getElementById("addButton").addEventListener("click", (e) => {
+                daysGenerated++;
+                console.log(daysGenerated);
+                if ((daysGenerated - 1) % 7 === 0) {
+                    weeksGenerated++;
+                    let week = document.createElement("tr");
+                    week.id = "week" + weeksGenerated;
+                    document.getElementById("schedule-body").appendChild(week);
+                }
+                let day = document.createElement("td");
+                day.id = "day" + daysGenerated;
+                day.classList = "day-style";
+                let dayHeader = document.createElement("div");
+                dayHeader.classList = "day-header";
+                dayHeader.id = "day" + daysGenerated + "-header";
+                dayHeader.textContent = "Day " + daysGenerated;
+                day.appendChild(dayHeader);
+                let dayContent = document.createElement("div");
+                dayContent.classList = "day-content";
+                dayContent.id = "day" + daysGenerated + "-content";
+                day.appendChild(dayContent);
+                document.getElementById("week" + weeksGenerated).appendChild(day);
+                day.addEventListener("click", (e) => dayClicked(e.currentTarget));
+            });
+
+            document.getElementById("removeButton").addEventListener("click", (e) => {
+                console.log(daysGenerated);
+                console.log(weeksGenerated);
+                if (daysGenerated > 0) {
+                    let day = document.getElementById("day" + daysGenerated);
+                    day.remove();
+                    daysGenerated--;
+                    if (daysGenerated % 7 === 0) {
+                        document.getElementById("week" + weeksGenerated).remove();
+                        weeksGenerated--;
+                    }
+                }
+            });
+
+            const dayClicked = (day) => {
+                let popup = document.getElementById("popup");
+                if (day.children[1].textContent !== "") {
+                    let content = day.children[1].textContent.split(": ");
+                    document.getElementById("dropdown").value = content[0];
+                    document.getElementById("textarea").value = content[1];
+                }
+                else {
+                    document.getElementById("dropdown").value = "Easy";
+                    document.getElementById("textarea").value = "";
+                }
+                popup.classList.remove("hidden");
+                let confirmButton = document.getElementById("confirmButton");
+                let cancelButton = document.getElementById("cancelButton");
+                document.getElementById("confirmButton").addEventListener("click", () => {
+                    const dropdown = document.getElementById("dropdown");
+                    const textarea = document.getElementById("textarea");
+                    day.children[1].textContent = dropdown.value + ": " + textarea.value;
+                    document.getElementById("popup").classList.add("hidden");
+                    confirmButton.replaceWith(confirmButton.cloneNode(true));
+                });
+                document.getElementById("cancelButton").addEventListener("click", () => {
+                    document.getElementById("popup").classList.add("hidden");
+                    confirmButton.replaceWith(confirmButton.cloneNode(true));
+                });
+            }
         </script>

@@ -249,21 +249,27 @@ app.route("/paceCalc")
 
 let calendar = "";
 
-app.route("/preserve-calendar").post((req, res) => {
-    calendar = req.body.calendar;
-});
 app.route("/save-calendar").post((req, res) => {
-    let numWeeks = req.body.numWeeks;
-    let daysWithContent = req.body.content;
-    console.log("Saved: " + numWeeks + ":" + daysWithContent);
+    let numDays = req.body.numDays;
+    let daysWithContent = req.body.daysWithContent;
+    let content = req.body.content;
+    console.log("Saved: " + numDays + ":" + daysWithContent + ":" + content);
     User.findOneAndUpdate(
         { username: req.user.username },
-        { numWeeks: numWeeks, daysWithContent: daysWithContent },
+        {
+            numDays: numDays,
+            daysWithContent: daysWithContent,
+            content: content,
+        },
         { new: true }
     )
         .then((user) => {
             console.log("Calendar saved for user: " + user.username);
-            calendar = parseCalendar(user.numWeeks, user.daysWithContent);
+            calendar = parseCalendar(
+                user.numDays,
+                user.daysWithContent,
+                user.content
+            );
             res.render("calendar", {
                 user: user.username,
                 calendar: calendar,
@@ -285,15 +291,15 @@ app.route("/calendar")
             console.log("Finding User...");
             User.findOne({ username: req.user.username }).then((user) => {
                 console.log("User found: " + user.username);
-                if (user.numWeeks) {
+                if (user.numDays) {
                     calendar = parseCalendar(
-                        user.numWeeks,
-                        user.daysWithContent
+                        user.numDays,
+                        user.daysWithContent,
+                        user.content
                     );
                     res.render("calendar", {
                         user: user.username,
                         calendar: calendar,
-                        messages: "Previously saved calendar found",
                     });
                 } else
                     res.render("calendar", {
@@ -345,28 +351,26 @@ app.listen(PORT, function () {
     console.log(`Server is running on port ${PORT}, http://localhost:3000`);
 });
 
-const parseCalendar = (numWeeks, daysWithContent) => {
+const parseCalendar = (numDays, daysWithContent, content) => {
     let daysGenerated = 0;
     let weeksGenerated = 0;
     let calendar = "";
-    let contentArr = daysWithContent?.split(",");
-    console.log("Parsing: " + numWeeks + ":" + contentArr);
-    while (daysGenerated != numWeeks * 7) {
-        if (daysGenerated % 7 == 0) {
+    console.log("Parsing: " + numDays + ":" + daysWithContent + ":" + content);
+    while (daysGenerated != numDays) {
+        if (daysGenerated % 7 === 0) {
             if (weeksGenerated !== 0) calendar += `</tr>`;
             weeksGenerated++;
             calendar += `<tr id="week${weeksGenerated}">`;
         }
         daysGenerated++;
-        let firstElement = null;
-        if (contentArr[0]) firstElement = contentArr[0].split(":");
-        if (firstElement && parseInt(firstElement[0]) === daysGenerated) {
+        if (daysWithContent[0] && daysWithContent[0] === daysGenerated) {
             calendar += `<td id="day${daysGenerated}" class="day-style"><div id="day${daysGenerated}-header" class="day-header">
-                            Day ${daysGenerated}</div><div id="day${daysGenerated}-content" class="day-content">${firstElement[1]}</div></td>`;
-            contentArr.shift();
+                            Day ${daysGenerated}</div><div id="day${daysGenerated}-content" class="day-content">${content[0]}</div></td>`;
+            daysWithContent.shift();
+            content.shift();
         } else
             calendar += `<td id="day${daysGenerated}" class="day-style"><div id="day${daysGenerated}-header" class="day-header">
                             Day ${daysGenerated}</div><div id="day${daysGenerated}-content" class="day-content"></div></td>`;
     }
-    return calendar + "</tr>";
+    return calendar + `</tr>`;
 };

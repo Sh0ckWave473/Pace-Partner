@@ -1,8 +1,7 @@
 body {
     margin: 0%;
     overflow-x: hidden;
-    padding-top: 5%;
-
+    padding-top: 5%
 }
 
 #mainContainer {
@@ -273,11 +272,12 @@ h1 {
     background-color: rgba(178, 34, 34, 0.7);
     border: solid black;
     border-radius: 2%;
+    text-wrap: nowrap;
+    overflow: hidden;
     color: white;
     transition: background-color 0.3s ease;
     width: 8vw;
     max-width: 8vw;
-    min-width: 8vw;
 }
 
 .day-style:hover {
@@ -289,4 +289,103 @@ h1 {
     background-color: rgba(178, 34, 34);
     margin-block: 0.5rem;
     overflow-x: hidden;
+}
+
+#addRemoveContainer {
+    display: flex;
+    flex-direction: row;
+    border: solid black;
+    border-radius: 5px;
+    width: fit-content;
+    user-select: none;
+}
+
+#addButton {
+    padding: 1rem;
+    background-color: rgba(76, 255, 79, 0.7);
+    border-radius: 2%;
+    color: white;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+#addButton:hover {
+    background-color: rgb(76, 255, 79);
+    cursor: pointer;
+}
+
+#removeButton {
+    padding: 1rem;
+    background-color: rgba(255, 76, 79, 0.7);
+    border-radius: 2%;
+    color: white;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+#removeButton:hover {
+    background-color: rgb(255, 76, 79);
+    cursor: pointer;
+}
+
+#popup {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+#popup-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 2rem;
+}
+
+#popup-buttons {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin: 5%;
+}
+
+#textarea {
+    width: 40vw;
+    height: 20vh;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+#popup-buttons > button {
+    background-color: crimson;
+    color: white;
+    border: 0;
+    padding: 5px;
+    margin: 0;
+    cursor: pointer;
+}
+
+#popup-buttons > button:hover {
+    background-color: rgb(255, 95, 95);
+}
+
+#dropdown {
+    padding: 0.5rem;
+    margin: 5%;
+    border-radius: 5px;
+}
+
+.hidden {
+    display: none !important;
 }
