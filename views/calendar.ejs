@@ -37,6 +37,7 @@
             <br />
             <div id="calendarButtons">
                 <input id="calendarButton" type="submit" value="Generate your calendar!"></input>
+                <input id="saveButton" type="submit" value="Save"></input>
                 <input id="resetButton" type="submit" value="Reset"></input>
             </div>
         </div>
@@ -70,6 +71,7 @@
                     <option value="Easy">Easy</option>
                     <option value="Workout">Workout</option>
                     <option value="Race">Race</option>
+                    <option value="Rest">Rest</option>
                 </select>
                 <textarea id="textarea" placeholder="Describe the day here"></textarea>
                 <div id="popup-buttons">
@@ -135,6 +137,34 @@
                     weeksGenerated = 0;
                 }
             });
+
+            document.getElementById("saveButton").addEventListener("click", (e) => {
+                let week = document.getElementById("week1");
+                let daysWithContent = [];
+                let content = [];
+                for (let i = 1; i <= daysGenerated; i++) {
+                    let day = document.getElementById("day" + i);
+                    if (day.children[1].textContent !== "") {
+                        daysWithContent.push(i);
+                        content.push(day.children[1].textContent);
+                    }
+                }
+                navigator.sendBeacon("/save-calendar",
+                    new Blob(
+                        [
+                            JSON.stringify({
+                                numDays:
+                                    daysGenerated,
+                                daysWithContent:
+                                    daysWithContent,
+                                content:
+                                    content,
+                            }),
+                        ],
+                        { type: "application/json" }
+                    )
+                );
+            })
 
             window.addEventListener("beforeunload", (e) => {
                 let week = document.getElementById("week1");

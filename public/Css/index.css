@@ -14,6 +14,7 @@ body {
     display: flex;
     text-align: center;
     align-items: center;
+    justify-content: center;
     margin-inline: 5%;
     flex-direction: row;
     flex-wrap: wrap;
@@ -71,7 +72,7 @@ nav {
 }
 
 #logo > a > img {
-    width: 10vw;
+    width: clamp(5rem, 10vw, 7rem);
 }
 
 #nav-links {
@@ -173,29 +174,51 @@ h1 {
     cursor: pointer;
 }
 
-#container > #signing-up {
+#formContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10%;
+    border-radius: 5px;
+    color: black;
+    background-color: var(--tertiary);
+}
+
+#signing-up {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+#signing-up > a {
+    display: flex;
+    justify-content: right;
+    text-decoration: underline;
+    font-family: Poppins;
+    border: 0;
+    border-radius: 10px;
+    text-align: right;
+    font-size: clamp(0.75rem, 20%, 1rem);
+    color: gray;
+    width: 100%;
 }
 
 #signing-up > label, #signing-up > div{
     position: relative;
     display: flex;
     max-width: fit-content;
-    margin-inline: auto;
     text-align: center;
     color: rgb(0, 0, 0);
     align-self: flex-start;
-    margin-block: 10px;
+    margin-top: 10%;
 }
 
 #signing-up > label > input {
     position: relative;
-    border-radius: 10px;
     width: clamp(10rem, 100%, 20rem);
-    margin-inline: auto;
-    background-color: rgb(255, 163, 163);
+    border-width: 0 0 2px 0;
+    border-color: var(--secondary);
     color: rgb(0, 0, 0);
     transition: transform 0.3s ease;
     padding: 6px 5px;
@@ -203,30 +226,30 @@ h1 {
 
 #button-container > a, #signing-up > #submit{
     position: relative;
-    max-width: 40%;
     margin-inline: auto;
     margin-block: 10px;
     text-decoration: none;
+    font-family: Poppins;
     border: 0;
+    padding: 2%;
+    border-radius: 10px;
     background-color: var(--secondary);
     text-align: center;
     font-size: clamp(1rem, 70%, 10rem);
     color: white;
-    width: 50%;
+    width: 100%;
     transform: scale(1);
     transition: transform 0.3s ease;
 }
 
 #button-container > a:hover, #signing-up > #submit:hover{
-    background-color: rgb(57, 57, 57);
+    background-color: var(--primary);
     cursor: pointer;
     transform: scale(1.1);
 }
 
 #button-container{
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
 }
 
 #schedule-wrapper {
