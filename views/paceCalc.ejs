@@ -29,6 +29,19 @@
             </script>
     </div>
     <% } %>
+        <div id="popup" class="hidden">
+            <div id="popup-content">
+                <div id="close-popup">&times;</div>
+                <p>
+                    <strong>What is a PR?</strong>
+                    <br>
+                    A PR is a personal record. It is the fastest time you have run for a
+                    specific distance. For example, if you have run a 5k in 20 minutes
+                    and 30 seconds, that is your 5k PR.
+                </p>
+            </div>
+        </div>
+        </div>
         <div id="calc-wrapper">
             <form id="pRForm" action="/paceCalc" method="post">
                 <div>Input your PR and get tailored paces for your runs</div>
@@ -74,7 +87,10 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Easy</td>
+                            <td>
+                                Easy
+                                <button id="help-easy">?</button>
+                            </td>
                             <td>
                                 <%= locals.easy || "??" %>
                             </td>
@@ -83,7 +99,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Marathon</td>
+                            <td>
+                                Marathon
+                                <button id="help-marathon">?</button>
+                            </td>
                             <td>
                                 <%= locals.marathon || "??" %>
                             </td>
@@ -92,7 +111,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Threshold</td>
+                            <td>
+                                Threshold
+                                <button id="help-threshold">?</button>
+                            </td>
                             <td>
                                 <%= locals.threshold || "??" %>
                             </td>
@@ -101,7 +123,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Interval</td>
+                            <td>
+                                Interval
+                                <button id="help-interval">?</button>
+                            </td>
                             <td>
                                 <%= locals.interval || "??" %>
                             </td>
@@ -110,7 +135,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Repeat</td>
+                            <td>
+                                Repeat
+                                <button id="help-repeat">?</button>
+                            </td>
                             <td>
                                 <%= locals.repeat || "??" %>
                             </td>
@@ -269,6 +297,45 @@
                 document.getElementById("distance").value = value;
             else
                 document.getElementById("distance").value = "1500m";
+
+            document.getElementById("close-popup").addEventListener("click", () => {
+                document.getElementById("popup").classList.add("hidden");
+            });
+
+            document.getElementById("help-easy").addEventListener("click", () => {
+                document.getElementById("popup").classList.remove("hidden");
+                document.getElementById("popup-content").children[1].innerHTML = "<h2>Easy Pace</h2> <br /> Easy pace should be as the name suggests. " +
+                    "This should not get you tired and you should be able to comfortably hold a conversation while you run. This pace here is meant to be the limit " +
+                    "for what pace you should be running so if you need to go slower, it is heavily encouraged so as to give your body the rest it deserves. " +
+                    "This is also the pace where you run the majority of your mileage.";
+            });
+
+            document.getElementById("help-marathon").addEventListener("click", () => {
+                document.getElementById("popup").classList.remove("hidden");
+                document.getElementById("popup-content").children[1].innerHTML = "<h2>Marathon Pace</h2> <br /> Marathon pace (or long run pace) is a good base for marathon training " +
+                    "as well as a great pace to run for a long run workout. This pace should feel moderate and is great for building endurance for those who want to race longer distances.";
+            });
+
+            document.getElementById("help-threshold").addEventListener("click", () => {
+                document.getElementById("popup").classList.remove("hidden");
+                document.getElementById("popup-content").children[1].innerHTML = "<h2>Threshold Pace</h2> <br /> Threshold pace is described as the pace you are able to sustain " +
+                    "for 30-60 minutes depending on how fit you are. This pace is good for workouts that help your body practice using your energy efficiently. " +
+                    "You should not be on the floor after running workouts at this pace, but it does get you a pretty tired.";
+            });
+
+            document.getElementById("help-interval").addEventListener("click", () => {
+                document.getElementById("popup").classList.remove("hidden");
+                document.getElementById("popup-content").children[1].innerHTML = "<h2>Interval Pace</h2> <br /> Interval pace is meant for short recovery and pretty fast reps " +
+                    "which can help with building speed. Workouts that include this pace do not typically go over a mile per rep since the intensity is pretty strong. A good estimate " +
+                    "is that you can hold this pace for around 10-15 minutes at an all out effort.";
+            });
+
+            document.getElementById("help-repeat").addEventListener("click", () => {
+                document.getElementById("popup").classList.remove("hidden");
+                document.getElementById("popup-content").children[1].innerHTML = "<h2>Repeat Pace</h2> <br /> Repeat pace can be almost considered an all out effort pace where you " +
+                    "are running at a very fast pace with full recovery (recovering equal to the amount of time the rep took) in between each rep. These are great for race pace practice for " +
+                    "short distances and typically have reps less than or up to 2-3 minutes.";
+            });
 
             window.addEventListener("beforeunload", (e) => {
                 let vO2 = `<%= locals.vO2 %>`

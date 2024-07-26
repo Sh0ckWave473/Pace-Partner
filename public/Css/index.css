@@ -115,7 +115,8 @@ nav {
 }
 
 #link:hover, #login > *:hover, #logout > *:hover, 
-#calc-wrapper > form > input:hover, #calendarButtons > input:hover {
+#calc-wrapper > form > input:hover, #calendarButtons > input:hover,
+td > button:hover {
     background-color: var(--primary);
     cursor: pointer;
     scale: unset;
@@ -157,6 +158,8 @@ h1 {
     color: white;
     max-width: fit-content;
     margin-inline: auto;
+    margin-bottom: 5px;
+    padding: 5px;
 }
 
 #alert > button{
@@ -225,7 +228,7 @@ h1 {
     text-decoration: none;
     font-family: Poppins;
     border: 0;
-    padding: 2%;
+    padding: 0.3rem;
     border-radius: 10px;
     background-color: var(--secondary);
     text-align: center;
@@ -260,8 +263,7 @@ h1 {
     flex-wrap: wrap;
     flex-direction: row;
     border-radius: 5px;
-    margin: 5%;
-    padding-block: 5%;
+    margin-inline: 5%;
     color: white;
     background-color: var(--primary);
 }
@@ -399,6 +401,24 @@ table > tbody > tr > td {
     cursor: pointer;
 }
 
+#paces-table, #prs-table {
+    border: solid 5px var(--secondary);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-block: 1rem;
+    font-size: clamp(0.5rem, 2vw, 2rem);
+}
+
+td > button {
+    padding: 0.5rem;
+    border-radius: 20%;
+    background-color: var(--secondary);
+    color: white;
+    border: 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
 #popup {
     position: fixed;
     display: flex;
@@ -412,9 +432,21 @@ table > tbody > tr > td {
     z-index: 999;
 }
 
+#close-popup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    background-color: crimson;
+    color: white;
+    border: 0;
+    cursor: pointer;
+}
+
 #popup-content {
     position: relative;
     display: flex;
+    width: 80vw;
     flex-direction: column;
     justify-content: center;
     align-items: center;
