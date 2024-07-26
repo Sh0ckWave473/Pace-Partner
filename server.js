@@ -170,9 +170,49 @@ app.route("/forgotPassword")
 
 app.route("/paceCalc")
     .get((req, res) => {
-        if (req.isAuthenticated())
-            res.render("paceCalc", { user: req.user.username });
-        else
+        if (req.isAuthenticated()) {
+            User.findOne({ username: req.user.username }).then((user) => {
+                if (user.vO2) {
+                    const pythonProcess = spawn("python", [
+                        "app.py",
+                        "./CSV/RunningPaces.csv",
+                        0,
+                        0,
+                        user.vO2,
+                    ]);
+
+                    pythonProcess.stdout.on("data", (data) => {
+                        console.log(`Data from Python script: ${data}`);
+                        data = data + "";
+                        let arr = data.split(" ");
+                        res.render("paceCalc", {
+                            vO2: arr[0],
+                            easy: arr[1],
+                            marathon: arr[2],
+                            threshold: arr[3],
+                            interval: arr[4],
+                            repeat: arr[5],
+                            pr1500: arr[6],
+                            pr1: arr[7],
+                            pr3k: arr[8],
+                            pr2: arr[9],
+                            pr5k: arr[10],
+                            pr10k: arr[11],
+                            prHalf: arr[12],
+                            prMarathon: arr[13],
+                            user: req.user.username,
+                            mileToKilometer,
+                            timeToMile,
+                        });
+                    });
+                } else
+                    res.render("paceCalc", {
+                        mileToKilometer,
+                        timeToMile,
+                        user: req.user.username,
+                    });
+            });
+        } else
             res.render("login", {
                 messages: "You must be logged in to view this page!",
             });
@@ -199,19 +239,14 @@ app.route("/paceCalc")
             error = "Input a valid PR time";
             inputPR = 0;
             res.render("paceCalc", {
-                easy: 0,
-                marathon: 0,
-                threshold: 0,
-                interval: 0,
-                repeat: 0,
-                twoMilePR: 0,
-                vO2: 0,
                 prH: inputPRHour,
                 prM: inputPRMinute,
                 prS: inputPRSecond,
                 distance: inputDistance,
                 user: req.user.username,
                 messages: error,
+                mileToKilometer,
+                timeToMile,
             });
         } else {
             const pythonProcess = spawn("python", [
@@ -219,6 +254,7 @@ app.route("/paceCalc")
                 "./CSV/RunningPaces.csv",
                 inputDistance,
                 inputPR,
+                0,
             ]);
 
             pythonProcess.stdout.on("data", (data) => {
@@ -226,18 +262,28 @@ app.route("/paceCalc")
                 data = data + "";
                 let arr = data.split(" ");
                 res.render("paceCalc", {
-                    easy: arr[1] + "+",
+                    vO2: arr[0],
+                    easy: arr[1],
                     marathon: arr[2],
-                    threshold: arr[3] + "-" + arr[2],
+                    threshold: arr[3],
                     interval: arr[4],
                     repeat: arr[5],
-                    vO2: arr[0],
+                    pr1500: arr[6],
+                    pr1: arr[7],
+                    pr3k: arr[8],
+                    pr2: arr[9],
+                    pr5k: arr[10],
+                    pr10k: arr[11],
+                    prHalf: arr[12],
+                    prMarathon: arr[13],
                     prH: inputPRHour,
                     prM: inputPRMinute,
                     prS: inputPRSecond,
                     distance: inputDistance,
                     user: req.user.username,
                     messages: error,
+                    mileToKilometer,
+                    timeToMile,
                 });
             });
 
@@ -270,18 +316,25 @@ app.route("/save-calendar").post((req, res) => {
                 user.daysWithContent,
                 user.content
             );
-            res.render("calendar", {
-                user: user.username,
-                calendar: calendar,
-                messages: "Calendar saved successfully",
-            });
         })
         .catch((err) => {
             console.log("Error: " + err);
-            res.render("calendar", {
-                user: user.username,
-                messages: "Error when saving calendar",
-            });
+        });
+});
+
+app.route("/save-vDOT").post((req, res) => {
+    let vO2 = req.body.vO2;
+    console.log("Saved: " + vO2);
+    User.findOneAndUpdate(
+        { username: req.user.username },
+        { vO2: vO2 },
+        { new: true }
+    )
+        .then((user) => {
+            console.log("Calendar saved for user: " + user.username);
+        })
+        .catch((err) => {
+            console.log("Error: " + err);
         });
 });
 
@@ -373,4 +426,37 @@ const parseCalendar = (numDays, daysWithContent, content) => {
                             Day ${daysGenerated}</div><div id="day${daysGenerated}-content" class="day-content"></div></td>`;
     }
     return calendar + `</tr>`;
+};
+
+const mileToKilometer = (milePace) => {
+    if (!milePace || milePace.indexOf(":") === -1) return "??";
+    let milePaceArr = milePace.split(":");
+    let milePaceSec = parseInt(milePaceArr[0]) * 60 + parseInt(milePaceArr[1]);
+    let kilometerPaceSec = milePaceSec / 1.60934;
+    let kilometerPaceMin = Math.floor(kilometerPaceSec / 60);
+    let kilometerPaceSecRemainder = Math.round(kilometerPaceSec % 60);
+    if (kilometerPaceSecRemainder < 10) {
+        return `${kilometerPaceMin}:0${kilometerPaceSecRemainder}`;
+    }
+    return `${kilometerPaceMin}:${kilometerPaceSecRemainder}`;
+};
+
+const timeToMile = (distance, time) => {
+    if (!distance || !time) return "??";
+    let timeArr = time.split(":");
+    let timeSec = 0;
+    if (timeArr.length === 2)
+        timeSec = parseInt(timeArr[0]) * 60 + parseInt(timeArr[1]);
+    else
+        timeSec =
+            parseInt(timeArr[0]) * 3600 +
+            parseInt(timeArr[1]) * 60 +
+            parseInt(timeArr[2]);
+    let paceSec = timeSec / distance;
+    let paceMin = Math.floor(paceSec / 60);
+    let paceSecRemainder = Math.round(paceSec % 60);
+    if (paceSecRemainder < 10) {
+        return `${paceMin}:0${paceSecRemainder}`;
+    }
+    return `${paceMin}:${paceSecRemainder}`;
 };

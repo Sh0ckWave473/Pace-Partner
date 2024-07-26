@@ -61,19 +61,166 @@
                 <input type="submit" value="See your running paces!"></input>
             </form>
             <div id="results">
-                <div className="vO2">
+                <div id="vO2" className="vO2">
                     VO2: <%= locals.vO2 %>
                 </div>
-                <div className="Easy">Easy Pace: <%= locals.easy %>
-                </div>
-                <div className="Marathon">Marathon Pace: <%= locals.marathon %>
-                </div>
-                <div className="Threshold">Threshold Pace: <%= locals.threshold %>
-                </div>
-                <div className="Interval">Interval 400m Pace: <%= locals.interval %>
-                </div>
-                <div className="Repeat">Repeat 400m Pace: <%= locals.repeat %>
-                </div>
+                <table id="paces-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Mile Pace</th>
+                            <th>Kilometer Pace</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Easy</td>
+                            <td>
+                                <%= locals.easy || "??" %>
+                            </td>
+                            <td>
+                                <%- mileToKilometer(locals.easy) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Marathon</td>
+                            <td>
+                                <%= locals.marathon || "??" %>
+                            </td>
+                            <td>
+                                <%- mileToKilometer(locals.marathon) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Threshold</td>
+                            <td>
+                                <%= locals.threshold || "??" %>
+                            </td>
+                            <td>
+                                <%- mileToKilometer(locals.threshold) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Interval</td>
+                            <td>
+                                <%= locals.interval || "??" %>
+                            </td>
+                            <td>
+                                <%- mileToKilometer(locals.interval) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Repeat</td>
+                            <td>
+                                <%= locals.repeat || "??" %>
+                            </td>
+                            <td>
+                                <%- mileToKilometer(locals.repeat) %>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table id="prs-table">
+                    <thead>
+                        <tr>
+                            <th>Distance</th>
+                            <th>PR</th>
+                            <th>Mile Pace</th>
+                            <th>Kilometer Pace</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1500m</td>
+                            <td>
+                                <%= locals.pr1500 || "??" %>
+                            </td>
+                            <td>
+                                <%- timeToMile(0.93, locals.pr1500) %>
+                            </td>
+                            <td>
+                                <%- mileToKilometer(timeToMile(0.93, locals.pr1500)) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1 mile</td>
+                            <td>
+                                <%= locals.pr1 || "??" %>
+                            </td>
+                            <td>
+                                <%= locals.pr1 || "??" %>
+                            <td>
+                                <%- mileToKilometer(locals.pr1) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3k</td>
+                            <td>
+                                <%= locals.pr3k || "??" %>
+                            </td>
+                            <td>
+                                <%- timeToMile(1.86, locals.pr3k) %>
+                            <td>
+                                <%- mileToKilometer(timeToMile(1.86, locals.pr3k)) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2 mile</td>
+                            <td>
+                                <%= locals.pr2 || "??" %>
+                            </td>
+                            <td>
+                                <%- timeToMile(2, locals.pr2) %>
+                            <td>
+                                <%- mileToKilometer(timeToMile(2, locals.pr2)) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5k</td>
+                            <td>
+                                <%= locals.pr5k || "??" %>
+                            </td>
+                            <td>
+                                <%- timeToMile(3.12, locals.pr5k) %>
+                            <td>
+                                <%- mileToKilometer(timeToMile(3.12, locals.pr5k)) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>10k</td>
+                            <td>
+                                <%= locals.pr10k || "??" %>
+                            </td>
+                            <td>
+                                <%- timeToMile(6.24, locals.pr10k) %>
+                            <td>
+                                <%- mileToKilometer(timeToMile(6.24, locals.pr10k)) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Half-Marathon</td>
+                            <td>
+                                <%= locals.prHalf || "??" %>
+                            </td>
+                            <td>
+                                <%- timeToMile(13.1, locals.prHalf) %>
+                            <td>
+                                <%- mileToKilometer(timeToMile(13.1, locals.prHalf)) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Marathon</td>
+                            <td>
+                                <%= locals.prMarathon || "??" %>
+                            </td>
+                            <td>
+                                <%- timeToMile(26.2, locals.prMarathon) %>
+                            <td>
+                                <%- mileToKilometer(timeToMile(26.2, locals.prMarathon)) %>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div className="tips" style="padding: 2%">
@@ -122,4 +269,19 @@
                 document.getElementById("distance").value = value;
             else
                 document.getElementById("distance").value = "1500m";
+
+            window.addEventListener("beforeunload", (e) => {
+                let vO2 = `<%= locals.vO2 %>`
+                navigator.sendBeacon(
+                    "/save-vDOT",
+                    new Blob(
+                        [
+                            JSON.stringify({
+                                vO2: vO2
+                            }),
+                        ],
+                        { type: "application/json" }
+                    )
+                );
+            });
         </script>

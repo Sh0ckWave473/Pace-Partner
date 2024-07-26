@@ -9,6 +9,7 @@ let userSchema = new mongoose.Schema({
     numDays: { type: Number, required: false, unique: false },
     daysWithContent: { type: [Number], required: false, unique: false },
     content: { type: [String], required: false, unique: false },
+    vO2: { type: Number, required: false, unique: false },
 });
 
 // plugin for passport-local-mongoose
