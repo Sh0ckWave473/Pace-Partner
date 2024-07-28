@@ -51,13 +51,13 @@
             </div>
             <table id="schedule">
                 <thead id="schedule-head">
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
-                    <th>Sunday</th>
+                    <th>M</th>
+                    <th>T</th>
+                    <th>W</th>
+                    <th>Th</th>
+                    <th>F</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
                 </thead>
                 <tbody id="schedule-body">
                     <%- locals.calendar %>
@@ -107,7 +107,7 @@
                         let dayHeader = document.createElement("div");
                         dayHeader.classList = "day-header";
                         dayHeader.id = "day" + daysGenerated + "-header";
-                        dayHeader.textContent = "Day " + daysGenerated;
+                        dayHeader.textContent = daysGenerated;
                         day.appendChild(dayHeader);
                         let dayContent = document.createElement("div");
                         dayContent.classList = "day-content";
@@ -144,9 +144,9 @@
                 let content = [];
                 for (let i = 1; i <= daysGenerated; i++) {
                     let day = document.getElementById("day" + i);
-                    if (day.children[1].textContent !== "") {
+                    if (day.children[1].getAttribute("text")) {
                         daysWithContent.push(i);
-                        content.push(day.children[1].textContent);
+                        content.push(day.children[1].classList[0] + ": " + day.children[1].getAttribute("text"));
                     }
                 }
                 navigator.sendBeacon("/save-calendar",
@@ -174,7 +174,7 @@
                     let day = document.getElementById("day" + i);
                     if (day.children[1].textContent !== "") {
                         daysWithContent.push(i);
-                        content.push(day.children[1].textContent);
+                        content.push(day.children[1].classList[0] + ": " + day.children[1].getAttribute("text"));
                     }
                 }
                 navigator.sendBeacon(
@@ -224,7 +224,7 @@
                 let dayHeader = document.createElement("div");
                 dayHeader.classList = "day-header";
                 dayHeader.id = "day" + daysGenerated + "-header";
-                dayHeader.textContent = "Day " + daysGenerated;
+                dayHeader.textContent = daysGenerated;
                 day.appendChild(dayHeader);
                 let dayContent = document.createElement("div");
                 dayContent.classList = "day-content";
@@ -251,9 +251,8 @@
             const dayClicked = (day) => {
                 let popup = document.getElementById("popup");
                 if (day.children[1].textContent !== "") {
-                    let content = day.children[1].textContent.split(": ");
-                    document.getElementById("dropdown").value = content[0];
-                    document.getElementById("textarea").value = content[1];
+                    document.getElementById("dropdown").value = day.children[1].classList[0];
+                    document.getElementById("textarea").value = day.children[1].getAttribute("text");
                 }
                 else {
                     document.getElementById("dropdown").value = "Easy";
@@ -265,7 +264,9 @@
                 document.getElementById("confirmButton").addEventListener("click", () => {
                     const dropdown = document.getElementById("dropdown");
                     const textarea = document.getElementById("textarea");
-                    day.children[1].textContent = dropdown.value + ": " + textarea.value;
+                    day.children[1].setAttribute("text", textarea.value);
+                    day.children[1].textContent = dropdown.value;
+                    day.children[1].classList = dropdown.value;
                     document.getElementById("popup").classList.add("hidden");
                     confirmButton.replaceWith(confirmButton.cloneNode(true));
                 });

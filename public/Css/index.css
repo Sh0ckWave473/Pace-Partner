@@ -6,7 +6,7 @@ body {
     --secondary: #070600;
     --tertiary: #f7f7ff;
     overflow-x: hidden;
-    padding-top: calc(20px + 5rem);
+    padding-top: calc(10vh + 1vw);
     font-family: Poppins, sans-serif;
 }
 
@@ -40,8 +40,9 @@ body {
 }
 
 .description {
-    font-size: clamp(2rem, 4vw, 5rem);
+    font-size: clamp(0.7rem, 4vw, 2rem);
     font-weight: normal;
+    margin: 2%;
 }
 
 nav {
@@ -136,10 +137,15 @@ td > button:hover {
     justify-content: center;
 }
 
-h2 {
+#subtext > * {
+    flex: 50 50;
+}
+
+#header {
     color: black;
     margin: 0;
-    font-size: clamp(2rem, 6vw, 10rem);
+    font-weight: bolder;
+    font-size: clamp(1.2rem, 6vw, 3rem);
 }
 
 h1 {
@@ -252,9 +258,13 @@ h1 {
 #schedule-wrapper {
     display: flex;
     justify-content: center;
-    background-color: var(--primary);
+    background-color: var(--tertiary);
     flex-direction: column;
-    padding: 2rem;
+    padding: 0.5rem;
+}
+
+#schedule-head {
+    background-color: white;
 }
 
 #calc-wrapper {
@@ -312,8 +322,11 @@ h1 {
 #vO2 {
     position: absolute;
     border-radius: 50%;
-    width: 3rem;
-    height: 3rem;
+    font-size: clamp(0.8rem, 3vw, 1rem);
+    width: 10vw;
+    height: 10vw;
+    max-width: 3rem;
+    max-height: 3rem;
     padding: 1rem;
     transform: translate(-50%, -50%);
     background-color: var(--primary);
@@ -324,44 +337,64 @@ h1 {
 table {
     border: solid 5px var(--secondary);
     border-radius: 10px;
-    padding: 1rem;
-    margin-block: 1rem;
+    padding: 0.5rem;
+    margin-block: 0.5rem;
 }
 
 table > thead > tr > th {
-    padding: 0.5rem;
+    font-size: clamp(0.5rem, 2vw, 1rem);
     border: solid 2px var(--secondary);
 }
 
 table > tbody > tr > td {
-    padding: 0.5rem;
+    padding: 0.25rem;
     border: solid 2px var(--secondary);
 }
 
 .day-style {
-    padding: 1rem;
-    background-color: var(--tertiary);
+    background-color: white;
     border: solid black;
     border-radius: 2%;
     text-wrap: nowrap;
     overflow: hidden;
     color: black;
     transition: background-color 0.3s ease;
-    width: 8vw;
-    max-width: 8vw;
+    font-size: clamp(0.4rem, 1.5vw, 1rem);
+    max-width: clamp(0.5rem, 3vw, 2rem);
+    width: 3vw;
     height: 15vh;
 }
 
 .day-style:hover {
-    background-color: rgb(226, 226, 226);
+    background-color: var(--tertiary);
     cursor: pointer;
 }
 
 .day-style > div {
-    background-color: rgba(178, 34, 34);
     margin-block: 0.5rem;
     border-radius: 5px;
+    padding: 0.5rem 0.2rem;
     overflow-x: hidden;
+}
+
+.day-header {
+    background-color: rgba(178, 34, 34);
+}
+
+.Rest {
+    background-color: gray;
+}
+
+.Easy {
+    background-color: green;
+}
+
+.Workout {
+    background-color: blue;
+}
+
+.Race {
+    background-color: red;
 }
 
 #addRemoveContainer {
@@ -410,7 +443,8 @@ table > tbody > tr > td {
 }
 
 td > button {
-    padding: 0.5rem;
+    padding: clamp(0.1rem, 2%, 0.5rem);
+    font-size: clamp(0.5rem, 2vw, 1rem);
     border-radius: 20%;
     background-color: var(--secondary);
     color: white;
@@ -452,7 +486,6 @@ td > button {
     align-items: center;
     background-color: var(--tertiary);
     border: 1px solid black;
-    border-radius: 5px;
     padding: 2rem;
 }
 

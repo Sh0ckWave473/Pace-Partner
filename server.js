@@ -417,13 +417,14 @@ const parseCalendar = (numDays, daysWithContent, content) => {
         }
         daysGenerated++;
         if (daysWithContent[0] && daysWithContent[0] === daysGenerated) {
+            contentArr = content[0].split(": ");
             calendar += `<td id="day${daysGenerated}" class="day-style"><div id="day${daysGenerated}-header" class="day-header">
-                            Day ${daysGenerated}</div><div id="day${daysGenerated}-content" class="day-content">${content[0]}</div></td>`;
+                            ${daysGenerated}</div><div id="day${daysGenerated}-content" class="${contentArr[0]}" text="${contentArr[1]}">${contentArr[0]}</div></td>`;
             daysWithContent.shift();
             content.shift();
         } else
             calendar += `<td id="day${daysGenerated}" class="day-style"><div id="day${daysGenerated}-header" class="day-header">
-                            Day ${daysGenerated}</div><div id="day${daysGenerated}-content" class="day-content"></div></td>`;
+                            ${daysGenerated}</div><div id="day${daysGenerated}-content"></div></td>`;
     }
     return calendar + `</tr>`;
 };
