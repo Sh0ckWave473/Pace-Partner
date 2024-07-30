@@ -32,11 +32,30 @@ body {
 
 .container > img {
     width: clamp(15rem, 45vw, 30rem);
+    z-index: 1;
 }
+
+/* Make it so that this image will fade into view from the left side when the site loads */
+.container > img {
+    animation: fade-in 1s forwards;
+}
+
+@keyframes fade-in {
+    0% {
+        transform: translateX(-50%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
 
 .intro-text{
     font-size: clamp(2rem, 8vw, 3rem);
     font-weight: bolder;
+    z-index: 2;
 }
 
 .description {
@@ -92,7 +111,7 @@ nav {
     margin-inline: 2%;
     border-radius: 5%;
     background-color: var(--secondary);
-    transition: background-color 0.3s ease;
+    transition: 0.3s ease;
 }
 
 #login, #logout {
@@ -112,15 +131,15 @@ nav {
     padding: 4%;
     border-radius: 5%;
     background-color: var(--secondary);
-    transition: background-color 0.3s ease;
+    transition: 0.3s ease;
 }
 
 #link:hover, #login > *:hover, #logout > *:hover, 
-#pace-wrapper > form > input:hover, #weeks > input:hover,
+#pace-wrapper > form > input:hover, #calendarButtons > input:hover,
 td > button:hover {
     background-color: var(--primary);
     cursor: pointer;
-    scale: unset;
+    scale: 1.05;
 }
 
 #demo {
@@ -291,7 +310,7 @@ h1 {
     border-radius: 5px;
     font-family: Poppins, sans-serif;
     border: 0;
-    transition: background-color 0.3s ease;
+    transition: 0.3s ease;
 }
 
 #pRForm, #weeks {
@@ -372,7 +391,7 @@ table > tbody > tr > td {
     text-wrap: nowrap;
     overflow: hidden;
     color: black;
-    transition: background-color 0.3s ease;
+    transition: 0.3s ease;
     font-size: clamp(0.4rem, 1.5vw, 1rem);
     max-width: clamp(0.5rem, 3vw, 2rem);
     width: 3vw;
@@ -419,7 +438,6 @@ table > tbody > tr > td {
 #addRemoveContainer {
     display: flex;
     flex-direction: row;
-
     border: solid black;
     border-radius: 5px;
     width: fit-content;
@@ -435,7 +453,7 @@ table > tbody > tr > td {
     background-color: rgba(76, 255, 79, 0.7);
     border-radius: 2%;
     color: white;
-    transition: background-color 0.3s ease;
+    transition: 0.3s ease;
     text-align: center;
 }
 
@@ -453,7 +471,7 @@ table > tbody > tr > td {
     background-color: rgba(255, 76, 79, 0.7);
     border-radius: 2%;
     color: white;
-    transition: background-color 0.3s ease;
+    transition: 0.3s ease;
     text-align: center;
 }
 
@@ -478,7 +496,7 @@ td > button {
     color: white;
     border: 0;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: 0.3s ease;
 }
 
 #popup {

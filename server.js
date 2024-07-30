@@ -6,6 +6,8 @@ const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
 const methodOverride = require("method-override");
+const nodemailer = require("nodemailer");
+const crypto = require("crypto");
 //Load in the environment variables and set them to dotenv
 require("dotenv").config();
 const app = express();
@@ -102,7 +104,6 @@ app.route("/register")
                             messages: "Username already exists!",
                         });
                 });
-                const hashedPassword = await bcrypt.hash(inputPassword, 10);
                 User.findOne({ email: inputEmail }).then((user) => {
                     if (user)
                         res.render("register", {
@@ -116,7 +117,7 @@ app.route("/register")
                         const newUser = new User({
                             username: inputUsername,
                             email: inputEmail,
-                            password: hashedPassword,
+                            password: bcrypt.hashSync(inputPassword, 10),
                         });
                         console.log(newUser);
                         newUser
@@ -141,9 +142,7 @@ app.route("/register")
 
 app.route("/forgotPassword")
     .get((req, res) => {
-        if (req.isAuthenticated())
-            res.render("paceCalc", { user: req.user.username });
-        else res.render("forgotPassword");
+        res.render("forgotPassword");
     })
     .post((req, res) => {
         let inputEmail = req.body.email;
@@ -157,7 +156,39 @@ app.route("/forgotPassword")
                         messages: "Email does not exist!",
                     });
                 else {
-                    res.render("resetPassword", { email: `${inputEmail}` });
+                    console.log("Found User. Sending email...");
+                    const token = crypto.randomBytes(20).toString("hex");
+                    const resetUrl = `http://localhost:3000/resetPassword/${token}`;
+                    user.resetPasswordToken = token;
+                    user.resetPasswordExpires = Date.now() + 3600000;
+                    const transporter = nodemailer.createTransport({
+                        service: "gmail",
+                        auth: {
+                            user: process.env.MAIL_USERNAME,
+                            pass: process.env.MAIL_PASSWORD,
+                        },
+                    });
+
+                    const mailOptions = {
+                        to: user.email,
+                        from: process.env.MAIL_USERNAME,
+                        subject: "Password Reset",
+                        text: `Please click on the following link to reset your password: ${resetUrl}`,
+                    };
+
+                    transporter.sendMail(mailOptions, (error, info) => {
+                        if (error) {
+                            return console.log(error);
+                        }
+                    });
+
+                    user.save().then(() => {
+                        console.log("Email Sent!");
+                        res.render("forgotPassword", {
+                            email: `${inputEmail}`,
+                            messages: "Email sent successfully!",
+                        });
+                    });
                 }
             });
         }
@@ -165,6 +196,75 @@ app.route("/forgotPassword")
             res.render("forgotPassword", {
                 email: `${inputEmail}`,
                 messages: error,
+            });
+    });
+
+app.route("/resetPassword/:token")
+    .get((req, res) => {
+        console.log("Opened");
+        const token = req.params.token;
+        User.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpires: { $gt: Date.now() },
+        }).then((user) => {
+            console.log("Checking User");
+            if (!user) {
+                console.log("User not found");
+                res.render("forgotPassword", {
+                    messages: "Invalid or expired token",
+                });
+            } else {
+                console.log("Found user");
+                res.render("resetPassword", { token: token });
+            }
+        });
+    })
+    .post((req, res) => {
+        const token = req.params.token;
+        User.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpires: { $gt: Date.now() },
+        })
+            .then((user) => {
+                if (!user) {
+                    res.render("forgotPassword", {
+                        messages: "Invalid or expired token",
+                    });
+                } else {
+                    if (
+                        req.body.password == req.body.confirm &&
+                        req.body.password.length >= 6
+                    ) {
+                        user.password = bcrypt.hashSync(req.body.password, 10);
+                        user.resetPasswordToken = "";
+                        user.resetPasswordExpires = "";
+                        user.save().then(() => {
+                            console.log("Password reset!!!");
+                            res.render("login", {
+                                messages: "Password reset successfully",
+                            });
+                        });
+                    } else {
+                        if (req.body.password.length < 6)
+                            res.render("resetPassword", {
+                                messages:
+                                    "Password must be at least 6 characters long",
+                                token: token,
+                            });
+                        else {
+                            res.render("resetPassword", {
+                                messages: "Passwords do not match",
+                                token: token,
+                            });
+                        }
+                    }
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+                res.render("resetPassword", {
+                    messages: "Error",
+                });
             });
     });
 
