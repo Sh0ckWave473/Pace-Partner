@@ -86,12 +86,12 @@ nav {
 }
 
 #logo > a {
-    display: contents;
+    display: flex;
+    align-items: center;
 }
 
 #logo > a > img {
     width: clamp(4rem, 15vw, 17rem);
-    height: clamp(3rem, 10vw, 5rem);
 }
 
 #nav-links {
