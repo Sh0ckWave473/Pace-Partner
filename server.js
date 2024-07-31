@@ -158,7 +158,9 @@ app.route("/forgotPassword")
                 else {
                     console.log("Found User. Sending email...");
                     const token = crypto.randomBytes(20).toString("hex");
-                    const resetUrl = `http://localhost:3000/resetPassword/${token}`;
+                    const resetUrl = `${req.protocol}://${req.get(
+                        "host"
+                    )}/resetPassword/${token}`;
                     user.resetPasswordToken = token;
                     user.resetPasswordExpires = Date.now() + 3600000;
                     const transporter = nodemailer.createTransport({

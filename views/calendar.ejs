@@ -9,9 +9,21 @@
             <a href="/paceCalc" id="link">Pace Calculator</a>
             <a href="/calendar" id="link">Calendar</a>
         </div>
-        <form id="logout" action="/logout?_method=DELETE" method="POST">
-            <button style="border: none; font: unset;" type="submit">Logout</button>
-        </form>
+        <div id="profile-container">
+            <div id="profile">
+                <div id="profile-head">
+                    <i class="fa-solid fa-user"></i>
+                    <div>
+                        <%= locals.user %>
+                    </div>
+                </div>
+                <div id="profile-contents" class="hidden">
+                    <form id="logout" action="/logout?_method=DELETE" method="POST">
+                        <button id="link" style="border: none; font: unset;" type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </nav>
 </div>
 <h1>Calendar</h1>
@@ -246,6 +258,13 @@
                         weeksGenerated--;
                     }
                 }
+            });
+
+            document.getElementById("profile-head").addEventListener("mouseenter", () => {
+                document.getElementById("profile-contents").classList.remove("hidden");
+            });
+            document.getElementById("profile").addEventListener("mouseleave", () => {
+                document.getElementById("profile-contents").classList.add("hidden");
             });
 
             const dayClicked = (day) => {
