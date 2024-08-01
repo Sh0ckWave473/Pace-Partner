@@ -6,7 +6,7 @@ body {
     --secondary: #070600;
     --tertiary: #f7f7ff;
     overflow-x: hidden;
-    padding-top: calc(10vh + 1vw);
+    padding-top: 10vh;
     font-family: Poppins, sans-serif;
 }
 
@@ -69,12 +69,13 @@ nav {
     top: 0;
     left: 0;
     right: 0;
+    height: 10vh;
     background-color: white;
     border: 2px rgb(0, 0, 0) solid;
     display: flex;
     white-space: nowrap;
     justify-content: space-between;
-    z-index: 999;
+    z-index: 3;
 }
 
 
@@ -91,7 +92,7 @@ nav {
 }
 
 #logo > a > img {
-    width: clamp(4rem, 15vw, 17rem);
+    height: 8vh;
 }
 
 #nav-links {
@@ -117,6 +118,7 @@ nav {
 #profile-container {
     display: flex;
     flex: 30%;
+    height: calc(10vh + 4px);
     justify-content: end;
 }
 
@@ -131,6 +133,7 @@ nav {
 #profile-head {
     height: 100%;
     display: flex;
+    position: relative;
     padding: 2%;
     justify-content: flex-end;
     align-items: center;
@@ -142,13 +145,65 @@ nav {
 
 #profile-contents {
     display: flex;
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: -10%;
     width: 10vw;
-    height: 100%;
-    background-color: var(--tertiary);
+    right: 0;
+    height: 10vh;
     border: solid 2px black;
     border-radius: 2px;
+    background-color: white;
+    z-index: 1;
+    animation: movedown 0.5s forwards;
+}
+
+.behindNav {
+    animation: moveup 0.5s forwards !important;
+}
+
+@keyframes moveup {
+    0% {
+        top: 10vh;
+    }
+    100% {
+        top: -10%;
+    }
+}
+
+@keyframes movedown {
+    0% {
+        top: -10%;
+    }
+    100% {
+        top: 10vh;
+    }
+}
+
+#dropdownArrow {
+    animation: rotateBack 0.5s forwards;
+}
+
+.rotate {
+    animation: rotate 0.5s forwards !important;
+}
+
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+@keyframes rotateBack {
+    0% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 #logout {
@@ -162,7 +217,7 @@ nav {
     display: flex;
     flex: 30%;
     justify-content: flex-end;
-    padding: 2%;
+    padding: 1%;
     text-decoration: none;
     font-size: clamp(0.5rem, 2vw, 1rem);
 }
@@ -198,10 +253,15 @@ td > button:hover {
 #subtext {
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 #subtext > * {
     flex: 50 50;
+}
+#subtext > img {
+    width: 50vw
 }
 
 #header {

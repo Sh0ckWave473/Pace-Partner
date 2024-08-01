@@ -92,6 +92,8 @@ app.route("/register")
             error = "The password must be at least 6 characters long!";
         else if (confirmPassword !== inputPassword)
             error = "Passwords do not match!";
+        else if (inputUsername.length > 20)
+            error = "Username must be less than 20 characters!";
         else {
             try {
                 User.findOne({ username: inputUsername }).then((user) => {

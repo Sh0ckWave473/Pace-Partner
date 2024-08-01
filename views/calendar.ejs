@@ -12,19 +12,19 @@
         <div id="profile-container">
             <div id="profile">
                 <div id="profile-head">
-                    <i class="fa-solid fa-user"></i>
+                    <i id="dropdownArrow" class="fa-solid fa-angle-up"></i>
                     <div>
                         <%= locals.user %>
                     </div>
                 </div>
-                <div id="profile-contents" class="hidden">
-                    <form id="logout" action="/logout?_method=DELETE" method="POST">
-                        <button id="link" style="border: none; font: unset;" type="submit">Logout</button>
-                    </form>
-                </div>
             </div>
         </div>
     </nav>
+    <div id="profile-contents" class="hidden">
+        <form id="logout" action="/logout?_method=DELETE" method="POST">
+            <button id="link" style="border: none; font: unset;" type="submit">Logout</button>
+        </form>
+    </div>
 </div>
 <h1>Calendar</h1>
 <% if(JSON.stringify(messages) !=="{}" && messages !=="" ) { %>
@@ -260,11 +260,34 @@
                 }
             });
 
+            let hoverOverHead = false;
+            let hoverOverContents = false;
             document.getElementById("profile-head").addEventListener("mouseenter", () => {
+                hoverOverHead = true;
+                document.getElementById("profile-contents").classList.remove("behindNav");
                 document.getElementById("profile-contents").classList.remove("hidden");
+                document.getElementById("dropdownArrow").classList.add("rotate");
             });
-            document.getElementById("profile").addEventListener("mouseleave", () => {
-                document.getElementById("profile-contents").classList.add("hidden");
+            document.getElementById("profile-contents").addEventListener("mouseenter", () => {
+                hoverOverContents = true;
+            });
+            document.getElementById("profile-contents").addEventListener("mouseleave", () => {
+                hoverOverContents = false;
+                setTimeout(() => {
+                    if (!hoverOverContents && !hoverOverHead) {
+                        document.getElementById("profile-contents").classList.add("behindNav");
+                        document.getElementById("dropdownArrow").classList.remove("rotate");
+                    }
+                }, 100);
+            });
+            document.getElementById("profile-head").addEventListener("mouseleave", () => {
+                hoverOverHead = false;
+                setTimeout(() => {
+                    if (!hoverOverContents && !hoverOverHead) {
+                        document.getElementById("profile-contents").classList.add("behindNav");
+                        document.getElementById("dropdownArrow").classList.remove("rotate");
+                    }
+                }, 100);
             });
 
             const dayClicked = (day) => {
