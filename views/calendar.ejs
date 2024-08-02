@@ -1,45 +1,6 @@
-<div id="navContainer">
-    <nav>
-        <div id="logo">
-            <a href="/">
-                <img src="/imgs/PacePartnerLogo.png" alt="Logo">
-            </a>
-        </div>
-        <div id="nav-links">
-            <a href="/paceCalc" id="link">Pace Calculator</a>
-            <a href="/calendar" id="link">Calendar</a>
-        </div>
-        <div id="profile-container">
-            <div id="profile">
-                <div id="profile-head">
-                    <i id="dropdownArrow" class="fa-solid fa-angle-up"></i>
-                    <div>
-                        <%= locals.user %>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <div id="profile-contents" class="hidden">
-        <form id="logout" action="/logout?_method=DELETE" method="POST">
-            <button id="link" style="border: none; font: unset;" type="submit">Logout</button>
-        </form>
-    </div>
-</div>
-<h1>Calendar</h1>
-<% if(JSON.stringify(messages) !=="{}" && messages !=="" ) { %>
-    <div id="alert">
-        <%= locals.messages %>
-            <button type="button" id="close">
-                <span>&times;</span>
-            </button>
-            <script>
-                document.getElementById('close').addEventListener("click", () =>
-                    document.getElementById('alert').remove()
-                );
-            </script>
-    </div>
-    <% } %>
+<%- include("partials/navUser") %>
+    <h1>Calendar</h1>
+    <%- include("partials/errorMsg") %>
         <div id="days-wrapper">
             <label id="weeks">
                 Number of Days for your Training Block:
@@ -48,27 +9,33 @@
             </label>
             <div id="calendarButtons">
                 <input id="calendarButton" type="submit" value="Generate your calendar!"></input>
-                <input id="saveButton" type="submit" value="Save"></input>
-                <input id="resetButton" type="submit" value="Reset"></input>
             </div>
         </div>
         <div id="schedule-wrapper">
             <div id="schedule-header">
                 <h2>Your Training Schedule</h2>
             </div>
-            <div id="addRemoveContainer">
-                <div id="addButton">+</div>
-                <div id="removeButton">-</div>
+            <div id="modifyContainer">
+                <div id="addRemoveContainer">
+                    <div id="addButton">+</div>
+                    <div id="removeButton">-</div>
+                </div>
+                <div id="saveResetContainer">
+                    <input id="saveButton" type="submit" value="Save"></input>
+                    <input id="resetButton" type="submit" value="Clear"></input>
+                </div>
             </div>
             <table id="schedule">
                 <thead id="schedule-head">
-                    <th>M</th>
-                    <th>T</th>
-                    <th>W</th>
-                    <th>Th</th>
-                    <th>F</th>
-                    <th>Sat</th>
-                    <th>Sun</th>
+                    <tr>
+                        <th>M</th>
+                        <th>T</th>
+                        <th>W</th>
+                        <th>Th</th>
+                        <th>F</th>
+                        <th>Sat</th>
+                        <th>Sun</th>
+                    </tr>
                 </thead>
                 <tbody id="schedule-body">
                     <%- locals.calendar %>
@@ -87,6 +54,7 @@
                 <textarea id="textarea" placeholder="Describe the day here"></textarea>
                 <div id="popup-buttons">
                     <button id="confirmButton">Confirm</button>
+                    <button id="clearButton">Clear</button>
                     <button id="cancelButton">Cancel</button>
                 </div>
             </div>
@@ -138,14 +106,19 @@
                         let day = document.getElementById("day" + i);
                         day.addEventListener("click", (e) => dayClicked(e.currentTarget));
                     }
+
+                    document.getElementById("days-wrapper").classList.add("hidden");
+                    document.getElementById("schedule-wrapper").classList.remove("hidden");
                 }
             });
 
             document.getElementById("resetButton").addEventListener("click", (e) => {
-                if (confirm("Are you sure you want to reset your calendar?")) {
+                if (confirm("Are you sure you want to clear your calendar?")) {
                     document.getElementById("schedule-body").innerHTML = "";
                     daysGenerated = 0;
                     weeksGenerated = 0;
+                    document.getElementById("days-wrapper").classList.remove("hidden");
+                    document.getElementById("schedule-wrapper").classList.add("hidden");
                 }
             });
 
@@ -219,6 +192,12 @@
                 weeksGenerated = Math.ceil(daysGenerated / 7);
                 console.log(daysGenerated);
                 console.log(weeksGenerated);
+                if (daysGenerated !== 0) {
+                    document.getElementById("days-wrapper").classList.add("hidden");
+                    document.getElementById("schedule-wrapper").classList.remove("hidden");
+                }
+                else
+                    document.getElementById("schedule-wrapper").classList.add("hidden");
             });
 
             document.getElementById("addButton").addEventListener("click", (e) => {
@@ -244,6 +223,8 @@
                 day.appendChild(dayContent);
                 document.getElementById("week" + weeksGenerated).appendChild(day);
                 day.addEventListener("click", (e) => dayClicked(e.currentTarget));
+                document.getElementById("days-wrapper").classList.add("hidden");
+                document.getElementById("schedule-wrapper").classList.remove("hidden");
             });
 
             document.getElementById("removeButton").addEventListener("click", (e) => {
@@ -251,12 +232,20 @@
                 console.log(weeksGenerated);
                 if (daysGenerated > 0) {
                     let day = document.getElementById("day" + daysGenerated);
+                    if (day.children[1].innerHTML !== "") {
+                        if (!confirm(`Are you sure you want to remove the content for day ${daysGenerated}?`))
+                            return;
+                    }
                     day.remove();
                     daysGenerated--;
                     if (daysGenerated % 7 === 0) {
                         document.getElementById("week" + weeksGenerated).remove();
                         weeksGenerated--;
                     }
+                }
+                if (daysGenerated === 0) {
+                    document.getElementById("days-wrapper").classList.remove("hidden");
+                    document.getElementById("schedule-wrapper").classList.add("hidden");
                 }
             });
 
@@ -292,29 +281,45 @@
 
             const dayClicked = (day) => {
                 let popup = document.getElementById("popup");
+                let dropdown = document.getElementById("dropdown");
+                let textarea = document.getElementById("textarea");
                 if (day.children[1].textContent !== "") {
-                    document.getElementById("dropdown").value = day.children[1].classList[0];
-                    document.getElementById("textarea").value = day.children[1].getAttribute("text");
+                    dropdown.value = day.children[1].classList[0];
+                    textarea.value = day.children[1].getAttribute("text");
                 }
                 else {
-                    document.getElementById("dropdown").value = "Easy";
-                    document.getElementById("textarea").value = "";
+                    dropdown.value = "Easy";
+                    textarea.value = "";
                 }
                 popup.classList.remove("hidden");
+                textarea.focus();
                 let confirmButton = document.getElementById("confirmButton");
+                let clearButton = document.getElementById("clearButton");
                 let cancelButton = document.getElementById("cancelButton");
-                document.getElementById("confirmButton").addEventListener("click", () => {
-                    const dropdown = document.getElementById("dropdown");
-                    const textarea = document.getElementById("textarea");
+                confirmButton.addEventListener("click", () => {
                     day.children[1].setAttribute("text", textarea.value);
                     day.children[1].textContent = dropdown.value;
                     day.children[1].classList = dropdown.value;
                     document.getElementById("popup").classList.add("hidden");
                     confirmButton.replaceWith(confirmButton.cloneNode(true));
+                    clearButton.replaceWith(clearButton.cloneNode(true));
                 });
-                document.getElementById("cancelButton").addEventListener("click", () => {
+                clearButton.addEventListener("click", () => {
+                    if (day.children[1].innerHTML == "")
+                        document.getElementById("popup").classList.add("hidden");
+                    else if (confirm("Are you sure you want to remove the content for this day?")) {
+                        day.children[1].textContent = "";
+                        day.children[1].classList = "";
+                        day.children[1].setAttribute("text", "");
+                        document.getElementById("popup").classList.add("hidden");
+                    }
+                    confirmButton.replaceWith(confirmButton.cloneNode(true));
+                    clearButton.replaceWith(clearButton.cloneNode(true));
+                });
+                cancelButton.addEventListener("click", () => {
                     document.getElementById("popup").classList.add("hidden");
                     confirmButton.replaceWith(confirmButton.cloneNode(true));
+                    clearButton.replaceWith(clearButton.cloneNode(true));
                 });
             }
         </script>

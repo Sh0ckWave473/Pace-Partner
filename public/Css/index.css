@@ -235,7 +235,7 @@ nav {
 
 #link:hover, #login > *:hover, #logout > *:hover, 
 #pace-wrapper > form > input:hover, #calendarButtons > input:hover,
-td > button:hover {
+td > button:hover, #saveResetContainer > input:hover {
     background-color: var(--primary);
     cursor: pointer;
     scale: 1.05;
@@ -390,6 +390,10 @@ h1 {
     background-color: white;
 }
 
+#schedule-head > tr > th {
+    width: 12.5vw;
+}
+
 #pace-wrapper, #days-wrapper {
     display: flex;
     justify-content: space-around;
@@ -406,7 +410,8 @@ h1 {
     max-width: clamp(13rem, 38vw, 25rem);
 }
 
-#pace-wrapper > form > input, #calendarButtons > input {
+#pace-wrapper > form > input, #calendarButtons > input,
+#saveResetContainer > input {
     background-color: var(--secondary);
     color: white;
     padding: 0.5rem;
@@ -454,6 +459,18 @@ h1 {
 
 #results {
     width: 80vw;
+}
+
+#modifyContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    flex: 50 50;
+    padding: 1rem;
+    border-radius: 5px;
+    color: black;
+    background-color: var(--tertiary);
 }
 
 #vO2 {

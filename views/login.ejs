@@ -1,41 +1,33 @@
-<div id="navContainer">
-    <nav>
-        <div id="logo">
-            <a href="/">
-                <img src="/imgs/PacePartnerLogo.png" alt="Logo">
-            </a>
-        </div>
-    </nav>
-</div>
-<div id="mainContainer">
-    <div id="formContainer">
-        <h1>Login</h1>
-        <% if(messages.error) { %>
-            <div id="alert">
-                <%= messages.error%>
-                    <button type="button" id="close">
-                        <span>&times;</span>
-                    </button>
-                    <script>
-                        document.getElementById('close').addEventListener("click", () =>
-                            document.getElementById('alert').remove()
-                        );
-                    </script>
-            </div>
-            <% } %>
-                <form id="signing-up" action="/login" method="post">
-                    <label>
-                        <input type="email" name="email" placeholder="Email" value=<%=locals.email%>>
-                    </label>
-                    <label>
-                        <input type="password" name="password" id="password" placeholder="Password"
-                            value=<%=locals.password%>>
-                    </label>
-                    <a href="/forgotPassword">Forgot Password?</a>
-                    <button id="submit" type="submit">Submit</button>
-                </form>
-                <div id="button-container">
-                    <a href="/register">Register</a>
+<%- include("partials/navNonUser") %>
+    <div id="mainContainer">
+        <div id="formContainer">
+            <h1>Login</h1>
+            <% if(messages.error) { %>
+                <div id="alert">
+                    <%= messages.error%>
+                        <button type="button" id="close">
+                            <span>&times;</span>
+                        </button>
+                        <script>
+                            document.getElementById('close').addEventListener("click", () =>
+                                document.getElementById('alert').remove()
+                            );
+                        </script>
                 </div>
+                <% } %>
+                    <form id="signing-up" action="/login" method="post">
+                        <label>
+                            <input type="email" name="email" placeholder="Email" value=<%=locals.email%>>
+                        </label>
+                        <label>
+                            <input type="password" name="password" id="password" placeholder="Password"
+                                value=<%=locals.password%>>
+                        </label>
+                        <a href="/forgotPassword">Forgot Password?</a>
+                        <button id="submit" type="submit">Submit</button>
+                    </form>
+                    <div id="button-container">
+                        <a href="/register">Register</a>
+                    </div>
+        </div>
     </div>
-</div>

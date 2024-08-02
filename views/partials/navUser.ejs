@@ -1,0 +1,28 @@
+<div id="navContainer">
+    <nav>
+        <div id="logo">
+            <a href="/">
+                <img src="/imgs/PacePartnerLogo.png" alt="Logo">
+            </a>
+        </div>
+        <div id="nav-links">
+            <a href="/paceCalc" id="link">Pace Calculator</a>
+            <a href="/calendar" id="link">Calendar</a>
+        </div>
+        <div id="profile-container">
+            <div id="profile">
+                <div id="profile-head">
+                    <i id="dropdownArrow" class="fa-solid fa-angle-up"></i>
+                    <div>
+                        <%= locals.user %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div id="profile-contents" class="hidden">
+        <form id="logout" action="/logout?_method=DELETE" method="POST">
+            <button id="link" style="border: none; font: unset;" type="submit">Logout</button>
+        </form>
+    </div>
+</div>

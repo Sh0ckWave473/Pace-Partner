@@ -1,28 +1,8 @@
-<div id="navContainer">
-    <nav>
-        <div id="logo">
-            <a href="/">
-                <img src="/imgs/PacePartnerLogo.png" alt="Logo" width="50">
-            </a>
-        </div>
-    </nav>
-</div>
-<div id="mainContainer">
-    <div id="formContainer">
-        <h1>Register</h1>
-        <% if(JSON.stringify(messages) !=="{}" && messages !=="" ) { %>
-            <div id="alert">
-                <%= locals.messages %>
-                    <button type="button" id="close">
-                        <span>&times;</span>
-                    </button>
-                    <script>
-                        document.getElementById('close').addEventListener("click", () =>
-                            document.getElementById('alert').remove()
-                        );
-                    </script>
-            </div>
-            <% } %>
+<%- include("partials/navNonUser") %>
+    <div id="mainContainer">
+        <div id="formContainer">
+            <h1>Register</h1>
+            <%- include("partials/errorMsg") %>
                 <form id="signing-up" action="/register" method="post">
                     <label>
                         <input type="text" name="username" placeholder="Username" value=<%=locals.username%>>
@@ -40,5 +20,5 @@
                     </label>
                     <button id="submit" type="submit">Submit</button>
                 </form>
+        </div>
     </div>
-</div>
