@@ -234,8 +234,8 @@ nav {
 }
 
 #link:hover, #login > *:hover, #logout > *:hover, 
-#pace-wrapper > form > input:hover, #calendarButtons > input:hover,
-td > button:hover, #saveResetContainer > input:hover {
+#pRForm > input:hover, #calendarButtons > input:hover,
+td > button:hover, #saveResetContainer > input:hover, #pRButton:hover {
     background-color: var(--primary);
     cursor: pointer;
     scale: 1.05;
@@ -394,7 +394,17 @@ h1 {
     width: 12.5vw;
 }
 
-#pace-wrapper, #days-wrapper {
+#pace-wrapper {
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    padding-inline: 5%;
+    margin-inline: 2%;
+    color: white;
+    background-color: var(--primary);
+}
+
+#days-wrapper {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -410,8 +420,8 @@ h1 {
     max-width: clamp(13rem, 38vw, 25rem);
 }
 
-#pace-wrapper > form > input, #calendarButtons > input,
-#saveResetContainer > input {
+#pRForm > input, #calendarButtons > input,
+#saveResetContainer > input, #pRButton {
     background-color: var(--secondary);
     color: white;
     padding: 0.5rem;
@@ -420,6 +430,21 @@ h1 {
     font-family: Poppins, sans-serif;
     border: 0;
     transition: 0.3s ease;
+}
+
+#pRButton-wrapper {
+    display: flex;
+    width: fit-content;
+    background-color: var(--tertiary);
+    padding: 1%;
+    margin: 1%;
+    border-radius: 2px;
+    align-self: end;
+}
+
+#pRButton {
+    width: fit-content;
+    align-self: flex-end;
 }
 
 #pRForm, #weeks {
@@ -620,7 +645,7 @@ td > button {
     transition: 0.3s ease;
 }
 
-#popup {
+.popup {
     position: fixed;
     display: flex;
     justify-content: center;
@@ -633,7 +658,7 @@ td > button {
     z-index: 999;
 }
 
-#close-popup {
+.close-popup {
     position: absolute;
     top: 0;
     right: 0;
@@ -644,7 +669,7 @@ td > button {
     cursor: pointer;
 }
 
-#popup-content {
+.popup-content {
     position: relative;
     display: flex;
     width: 80vw;
