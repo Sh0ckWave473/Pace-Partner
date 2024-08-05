@@ -42,12 +42,13 @@
                 </tbody>
             </table>
         </div>
-        <div id="popup" class="hidden">
-            <div id="popup-content">
+        <div id="planner-popup" class="popup hidden">
+            <div id="planner-content" class="popup-content">
                 <h3>Plan the day for today!</h3>
                 <select id="dropdown" value="Type of Run">
                     <option value="Easy">Easy</option>
                     <option value="Workout">Workout</option>
+                    <option value="longRun">Long Run</option>
                     <option value="Race">Race</option>
                     <option value="Rest">Rest</option>
                 </select>
@@ -280,7 +281,7 @@
             });
 
             const dayClicked = (day) => {
-                let popup = document.getElementById("popup");
+                let popup = document.getElementById("planner-popup");
                 let dropdown = document.getElementById("dropdown");
                 let textarea = document.getElementById("textarea");
                 if (day.children[1].textContent !== "") {
@@ -298,26 +299,29 @@
                 let cancelButton = document.getElementById("cancelButton");
                 confirmButton.addEventListener("click", () => {
                     day.children[1].setAttribute("text", textarea.value);
-                    day.children[1].textContent = dropdown.value;
+                    if (dropdown.value === "longRun")
+                        day.children[1].textContent = "Long Run";
+                    else
+                        day.children[1].textContent = dropdown.value;
                     day.children[1].classList = dropdown.value;
-                    document.getElementById("popup").classList.add("hidden");
+                    document.getElementById("planner-popup").classList.add("hidden");
                     confirmButton.replaceWith(confirmButton.cloneNode(true));
                     clearButton.replaceWith(clearButton.cloneNode(true));
                 });
                 clearButton.addEventListener("click", () => {
                     if (day.children[1].innerHTML == "")
-                        document.getElementById("popup").classList.add("hidden");
+                        document.getElementById("planner-popup").classList.add("hidden");
                     else if (confirm("Are you sure you want to remove the content for this day?")) {
                         day.children[1].textContent = "";
                         day.children[1].classList = "";
                         day.children[1].setAttribute("text", "");
-                        document.getElementById("popup").classList.add("hidden");
+                        document.getElementById("planner-popup").classList.add("hidden");
                     }
                     confirmButton.replaceWith(confirmButton.cloneNode(true));
                     clearButton.replaceWith(clearButton.cloneNode(true));
                 });
                 cancelButton.addEventListener("click", () => {
-                    document.getElementById("popup").classList.add("hidden");
+                    document.getElementById("planner-popup").classList.add("hidden");
                     confirmButton.replaceWith(confirmButton.cloneNode(true));
                     clearButton.replaceWith(clearButton.cloneNode(true));
                 });

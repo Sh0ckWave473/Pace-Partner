@@ -576,6 +576,11 @@ table > tbody > tr > td {
     color: white;
 }
 
+.longRun {
+    background-color: orange;
+    color: white;
+}
+
 .Race {
     background-color: red;
     color: white;
