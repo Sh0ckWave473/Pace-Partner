@@ -1,18 +1,19 @@
 <%- include("partials/navUser") %>
     <h1>Pace Calculator</h1>
     <%- include("partials/errorMsg") %>
-        <div id="info" class="popup hidden">
-            <div id="info-content" class="popup-content">
-                <div id="close-info" class="close-popup">&times;</div>
-                <p>
-                    <strong>What is a PR?</strong>
-                    <br>
-                    A PR is a personal record. It is the fastest time you have run for a
-                    specific distance. For example, if you have run a 5k in 20 minutes
-                    and 30 seconds, that is your 5k PR.
-                </p>
+        <div id="popups">
+            <div id="info" class="popup hidden">
+                <div id="info-content" class="popup-content">
+                    <div id="close-info" class="close-popup">&times;</div>
+                    <p>
+                        <strong>What is a PR?</strong>
+                        <br>
+                        A PR is a personal record. It is the fastest time you have run for a
+                        specific distance. For example, if you have run a 5k in 20 minutes
+                        and 30 seconds, that is your 5k PR.
+                    </p>
+                </div>
             </div>
-        </div>
         </div>
         <div id="prContainer" class="popup hidden">
             <div class="popup-content">
@@ -49,10 +50,9 @@
                 </form>
             </div>
         </div>
+        </div>
         <div id="pace-wrapper">
-            <div id="pRButton-wrapper">
-                <button id="pRButton">Recalculate your paces</button>
-            </div>
+            <button id="pRButton">Recalculate your paces</button>
             <div id="results">
                 <div id="vO2" className="vO2">
                     VO2: <%= locals.vO2 || "??" %>
@@ -132,7 +132,7 @@
                     <thead>
                         <tr>
                             <th>Distance</th>
-                            <th>PR</th>
+                            <th>Estimated PR</th>
                             <th>Mile Pace</th>
                             <th>Kilometer Pace</th>
                         </tr>
@@ -231,45 +231,79 @@
                 </table>
             </div>
         </div>
-        <div className="tips" style="padding: 2%">
-            <h2>Tips for improving your pace and achieving a personal best:</h2>
-            <h4>Heart Rate:</h4>
-            <p>
-                Although they are not necessary, heart rate monitors are a great way
-                to gain extra insight on how your body is feeling during a run. Heart
-                rate is also a good indicator of how hard a workout was for you and
-                can help you determine whether your effort was too difficult, too
-                easy, or just right. Here are some guidelines as to what to look for
-                in terms of your heart rate during a run.
-            </p>
-            <ul>
-                <li>Easy Runs: 65% - 79% Max HR</li>
-                <li>Marathon / Medium Runs: 80% - 90% Max HR</li>
-                <li>Threshold Runs: 88% - 92% Max HR</li>
-                <li>Interval Runs: 98% - 100% Max HR</li>
-                <li>
-                    Repeats Runs: 100% (Generally, you are pushing your body to its
-                    upper limits)
-                </li>
-            </ul>
-            <p>
-                A general rule of thumb for your Max HR is to start with 220 bpm and
-                subtract your age. For example someone who is 20 years old would have
-                a Max HR of 200 bpm. <strong>However</strong>, this can be sometimes unreliable so the best
-                way to go is to know your max HR which you can find out by running an all
-                out 2 mile. Here is the running breakdown for someone with a 220 bpm Max HR:
-            </p>
-            <ul>
-                <li>Easy Runs: 130 - 158 BPM</li>
-                <li>Marathon / Medium Runs: 160 - 180 BPM</li>
-                <li>Threshold Runs: 176 - 184 BPM</li>
-                <li>Interval Runs: 196 - 200 BPM</li>
-                <li>Repeats Runs: 200 BPM</li>
-            </ul>
-            <p>
-                Note: Hitting your max BPM for workouts is not necessary at all. It is
-                just a separate indicator of how difficult the run was.
-            </p>
+        <h2>Tips for improving your pace and achieving a personal best:</h2>
+        <div id="tips-container">
+            <div id="hrHelp" class="help-button">
+                Heart Rate: <i class="fa-solid fa-play"></i>
+            </div>
+            <div id="workoutHelp" class="help-button">
+                Workouts:
+                <i class="fa-solid fa-play"></i>
+            </div>
+            <div id="wucdHelp" class="help-button">
+                Warming Up:
+                <i class="fa-solid fa-play"></i>
+            </div>
+        </div>
+        <div id="hr-tip" class="popup hidden">
+            <div class="popup-content">
+                <div id="close-hr" class="close-popup">&times;</div>
+                <h4>Heart Rate:</h4>
+                <p>
+                    Although they are not necessary, heart rate monitors are a great way
+                    to gain extra insight on how your body is feeling during a run. Heart
+                    rate is also a good indicator of how hard a workout was for you and
+                    can help you determine whether your effort was too difficult, too
+                    easy, or just right. Here are some guidelines as to what to look for
+                    in terms of your heart rate during a run.
+                </p>
+                <ul>
+                    <li>Easy Runs: 65% - 79% Max HR</li>
+                    <li>Marathon / Medium Runs: 80% - 90% Max HR</li>
+                    <li>Threshold Runs: 88% - 92% Max HR</li>
+                    <li>Interval Runs: 98% - 100% Max HR</li>
+                    <li>
+                        Repeats Runs: 100% (Generally, you are pushing your body to its
+                        upper limits)
+                    </li>
+                </ul>
+                <p>
+                    A general rule of thumb for your Max HR is to start with 220 bpm and
+                    subtract your age. For example someone who is 20 years old would have
+                    a Max HR of 200 bpm. <strong>However</strong>, this can be sometimes unreliable so the best
+                    way to go is to know your max HR which you can find out by running an all
+                    out 2 mile. Here is the running breakdown for someone with a 220 bpm Max HR:
+                </p>
+                <ul>
+                    <li>Easy Runs: 130 - 158 BPM</li>
+                    <li>Marathon / Medium Runs: 160 - 180 BPM</li>
+                    <li>Threshold Runs: 176 - 184 BPM</li>
+                    <li>Interval Runs: 196 - 200 BPM</li>
+                    <li>Repeats Runs: 200 BPM</li>
+                </ul>
+                <p>
+                    Note: Hitting your max BPM for workouts is not necessary at all. It is
+                    just a separate indicator of how difficult the run was.
+                </p>
+            </div>
+        </div>
+        <div id="workout-tip" class="popup hidden">
+            <div class="popup-content">
+                <div id="close-workout" class="close-popup">&times;</div>
+                <h4>Workouts:</h4>
+                <p>
+                    Something about workouts
+                </p>
+            </div>
+        </div>
+        <div id="wucd-tip" class="popup hidden">
+            <div class="popup-content">
+                <div id="close-wucd" class="close-popup">&times;</div>
+                <h4>Warm Up / Cool Down:</h4>
+                <p>
+                    Something about warm ups and cool downs
+                </p>
+            </div>
         </div>
         <script>
             let value = "<%= locals.distance %>";
@@ -292,8 +326,8 @@
 
             document.getElementById("help-marathon").addEventListener("click", () => {
                 document.getElementById("info").classList.remove("hidden");
-                document.getElementById("info-content").children[1].innerHTML = "<h2>Marathon Pace</h2> <br /> Marathon pace (or long run pace) is a good base for marathon training " +
-                    "as well as a great pace to run for a long run workout. This pace should feel moderate and is great for building endurance for those who want to race longer distances.";
+                document.getElementById("info-content").children[1].innerHTML = "<h2>Marathon Pace</h2> <br /> Marathon pace is a good to know for marathon based workouts" +
+                    "and is often incorporated into long run workouts. This pace should feel moderate and is great for building endurance for those who want to race longer distances.";
             });
 
             document.getElementById("help-threshold").addEventListener("click", () => {
@@ -369,5 +403,23 @@
             });
             document.getElementById("close-form").addEventListener("click", () => {
                 document.getElementById("prContainer").classList.add("hidden");
+            });
+            document.getElementById("hrHelp").addEventListener("click", () => {
+                document.getElementById("hr-tip").classList.remove("hidden");
+            })
+            document.getElementById("close-hr").addEventListener("click", () => {
+                document.getElementById("hr-tip").classList.add("hidden");
+            });
+            document.getElementById("workoutHelp").addEventListener("click", () => {
+                document.getElementById("workout-tip").classList.remove("hidden");
+            })
+            document.getElementById("close-workout").addEventListener("click", () => {
+                document.getElementById("workout-tip").classList.add("hidden");
+            });
+            document.getElementById("wucdHelp").addEventListener("click", () => {
+                document.getElementById("wucd-tip").classList.remove("hidden");
+            })
+            document.getElementById("close-wucd").addEventListener("click", () => {
+                document.getElementById("wucd-tip").classList.add("hidden");
             });
         </script>

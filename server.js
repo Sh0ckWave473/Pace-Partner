@@ -524,15 +524,21 @@ const parseCalendar = (numDays, daysWithContent, content) => {
             contentArr = content[0].split(": ");
             if (contentArr[0] === "longRun")
                 calendar += `<td id="day${daysGenerated}" class="day-style"><div id="day${daysGenerated}-header" class="day-header">
-                    ${daysGenerated}</div><div id="day${daysGenerated}-content" class="longRun" text="${contentArr[1]}">Long Run</div></td>`;
+                    ${daysGenerated}</div><div id="day${daysGenerated}-content" class="longRun" text="${contentArr[2]}" miles="${contentArr[1]}">Long Run</div>
+                    <div id="day${daysGenerated}-miles" class="miles">${contentArr[1]}</div></td>`;
+            else if (contentArr[0] === "Rest")
+                calendar += `<td id="day${daysGenerated}" class="day-style"><div id="day${daysGenerated}-header" class="day-header">
+                    ${daysGenerated}</div><div id="day${daysGenerated}-content" class="${contentArr[0]}" text="${contentArr[2]}" miles="${contentArr[1]}">${contentArr[0]}</div>
+                    <div id="day${daysGenerated}-miles" class=""></div></td>`;
             else
                 calendar += `<td id="day${daysGenerated}" class="day-style"><div id="day${daysGenerated}-header" class="day-header">
-                    ${daysGenerated}</div><div id="day${daysGenerated}-content" class="${contentArr[0]}" text="${contentArr[1]}">${contentArr[0]}</div></td>`;
+                    ${daysGenerated}</div><div id="day${daysGenerated}-content" class="${contentArr[0]}" text="${contentArr[2]}" miles="${contentArr[1]}">${contentArr[0]}</div>
+                    <div id="day${daysGenerated}-miles" class="miles">${contentArr[1]}</div></td>`;
             daysWithContent.shift();
             content.shift();
         } else
             calendar += `<td id="day${daysGenerated}" class="day-style"><div id="day${daysGenerated}-header" class="day-header">
-                ${daysGenerated}</div><div id="day${daysGenerated}-content"></div></td>`;
+                ${daysGenerated}</div><div id="day${daysGenerated}-content"></div><div id="day${daysGenerated}-miles"></div></td>`;
     }
     return calendar + `</tr>`;
 };

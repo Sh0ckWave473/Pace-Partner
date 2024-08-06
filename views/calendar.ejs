@@ -14,6 +14,7 @@
         <div id="schedule-wrapper">
             <div id="schedule-header">
                 <h2>Your Training Schedule</h2>
+                <p>Note: Your calendar can become corrupt as this site is still in development!</p>
             </div>
             <div id="modifyContainer">
                 <div id="addRemoveContainer">
@@ -45,14 +46,24 @@
         <div id="planner-popup" class="popup hidden">
             <div id="planner-content" class="popup-content">
                 <h3>Plan the day for today!</h3>
-                <select id="dropdown" value="Type of Run">
-                    <option value="Easy">Easy</option>
-                    <option value="Workout">Workout</option>
-                    <option value="longRun">Long Run</option>
-                    <option value="Race">Race</option>
-                    <option value="Rest">Rest</option>
-                </select>
-                <textarea id="textarea" placeholder="Describe the day here"></textarea>
+                <div id="run-container">
+                    <label for="dropdown-run">Type of Run:</label>
+                    <select id="dropdown-run" value="Type of Run">
+                        <option value="Easy">Easy</option>
+                        <option value="Workout">Workout</option>
+                        <option value="longRun">Long Run</option>
+                        <option value="Race">Race</option>
+                        <option value="Rest">Rest</option>
+                    </select>
+                </div>
+                <div id="mileage-container">
+                    <label for="dropdown-miles">Miles:</label>
+                    <select id="dropdown-miles" value="Type of Run"></select>
+                </div>
+                <div id="notes-container">
+                    <label style="justify-self: left;">Notes:</label>
+                    <textarea id="textarea" placeholder="Describe the day here"></textarea>
+                </div>
                 <div id="popup-buttons">
                     <button id="confirmButton">Confirm</button>
                     <button id="clearButton">Clear</button>
@@ -64,6 +75,19 @@
         <script>
             let daysGenerated = 0;
             let weeksGenerated = 0;
+
+            for (let i = 0; i <= 100; i++) {
+                let option = document.createElement("option");
+                if (i === 1) {
+                    option.value = i + " mile";
+                    option.text = i + " mile";
+                }
+                else {
+                    option.value = i + " miles";
+                    option.text = i + " miles";
+                }
+                document.getElementById("dropdown-miles").appendChild(option);
+            }
 
             document.getElementById("calendarButton").addEventListener("click", (e) => {
                 e.preventDefault();
@@ -93,6 +117,9 @@
                         dayContent.classList = "day-content";
                         dayContent.id = "day" + daysGenerated + "-content";
                         day.appendChild(dayContent);
+                        let dayMiles = document.createElement("div");
+                        dayMiles.id = "day" + daysGenerated + "-miles";
+                        day.appendChild(dayMiles);
                         document.getElementById("week" + weeksGenerated).appendChild(day);
                     }
 
@@ -131,7 +158,7 @@
                     let day = document.getElementById("day" + i);
                     if (day.children[1].getAttribute("text")) {
                         daysWithContent.push(i);
-                        content.push(day.children[1].classList[0] + ": " + day.children[1].getAttribute("text"));
+                        content.push(day.children[1].classList[0] + ": " + day.children[1].getAttribute("miles") + ": " + day.children[1].getAttribute("text"));
                     }
                 }
                 navigator.sendBeacon("/save-calendar",
@@ -160,7 +187,7 @@
                     let day = document.getElementById("day" + i);
                     if (day.children[1].textContent !== "") {
                         daysWithContent.push(i);
-                        content.push(day.children[1].classList[0] + ": " + day.children[1].getAttribute("text"));
+                        content.push(day.children[1].classList[0] + ": " + day.children[1].getAttribute("miles") + ": " + day.children[1].getAttribute("text"));
                     }
                 }
                 navigator.sendBeacon(
@@ -222,6 +249,9 @@
                 dayContent.classList = "day-content";
                 dayContent.id = "day" + daysGenerated + "-content";
                 day.appendChild(dayContent);
+                let dayMiles = document.createElement("div");
+                dayMiles.id = "day" + daysGenerated + "-miles";
+                day.appendChild(dayMiles);
                 document.getElementById("week" + weeksGenerated).appendChild(day);
                 day.addEventListener("click", (e) => dayClicked(e.currentTarget));
                 document.getElementById("days-wrapper").classList.add("hidden");
@@ -279,17 +309,32 @@
                     }
                 }, 100);
             });
+            document.getElementById("dropdown-run").addEventListener("change", () => {
+                let dropdownRun = document.getElementById("dropdown-run");
+                let dropdownMiles = document.getElementById("dropdown-miles");
+                if (dropdownRun.value === "Rest") {
+                    dropdownMiles.value = "0 miles";
+                    dropdownMiles.disabled = true;
+                }
+                else
+                    dropdownMiles.disabled = false;
+            });
 
             const dayClicked = (day) => {
                 let popup = document.getElementById("planner-popup");
-                let dropdown = document.getElementById("dropdown");
+                let dropdownRun = document.getElementById("dropdown-run");
+                let dropdownMiles = document.getElementById("dropdown-miles");
                 let textarea = document.getElementById("textarea");
                 if (day.children[1].textContent !== "") {
-                    dropdown.value = day.children[1].classList[0];
+                    dropdownRun.value = day.children[1].classList[0];
+                    dropdownMiles.value = day.children[1].getAttribute("miles");
                     textarea.value = day.children[1].getAttribute("text");
+                    if (dropdownRun.value === "Rest")
+                        dropdownMiles.disabled = true;
                 }
                 else {
-                    dropdown.value = "Easy";
+                    dropdownRun.value = "Easy";
+                    dropdownMiles.value = "1 mile";
                     textarea.value = "";
                 }
                 popup.classList.remove("hidden");
@@ -298,13 +343,22 @@
                 let clearButton = document.getElementById("clearButton");
                 let cancelButton = document.getElementById("cancelButton");
                 confirmButton.addEventListener("click", () => {
+                    day.children[1].setAttribute("miles", dropdownMiles.value)
                     day.children[1].setAttribute("text", textarea.value);
-                    if (dropdown.value === "longRun")
+                    if (dropdownRun.value === "longRun")
                         day.children[1].textContent = "Long Run";
                     else
-                        day.children[1].textContent = dropdown.value;
-                    day.children[1].classList = dropdown.value;
+                        day.children[1].textContent = dropdownRun.value;
+                    day.children[1].classList = dropdownRun.value;
+                    day.children[2].textContent = dropdownMiles.value;
+                    if (dropdownRun.value === "Rest") {
+                        day.children[2].classList = "";
+                        day.children[2].textContent = "";
+                    }
+                    else
+                        day.children[2].classList = "miles";
                     document.getElementById("planner-popup").classList.add("hidden");
+                    dropdownMiles.disabled = false;
                     confirmButton.replaceWith(confirmButton.cloneNode(true));
                     clearButton.replaceWith(clearButton.cloneNode(true));
                 });
@@ -314,7 +368,10 @@
                     else if (confirm("Are you sure you want to remove the content for this day?")) {
                         day.children[1].textContent = "";
                         day.children[1].classList = "";
+                        day.children[2].textContent = "";
+                        day.children[2].classList = "";
                         day.children[1].setAttribute("text", "");
+                        day.children[1].setAttribute("miles", "");
                         document.getElementById("planner-popup").classList.add("hidden");
                     }
                     confirmButton.replaceWith(confirmButton.cloneNode(true));

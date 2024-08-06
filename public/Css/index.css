@@ -401,7 +401,7 @@ h1 {
     padding-inline: 5%;
     margin-inline: 2%;
     color: white;
-    background-color: var(--primary);
+    background-color: var(--tertiary);
 }
 
 #days-wrapper {
@@ -432,18 +432,9 @@ h1 {
     transition: 0.3s ease;
 }
 
-#pRButton-wrapper {
-    display: flex;
-    width: fit-content;
-    background-color: var(--tertiary);
-    padding: 1%;
-    margin: 1%;
-    border-radius: 2px;
-    align-self: end;
-}
-
 #pRButton {
     width: fit-content;
+    margin: 0.5rem;
     align-self: flex-end;
 }
 
@@ -476,8 +467,6 @@ h1 {
     flex-direction: column;
     flex: 50%;
     border-radius: 5px;
-    margin: 1%;
-    padding: 1%;
     color: black;
     background-color: var(--tertiary);
 }
@@ -520,6 +509,10 @@ table {
     margin-block: 0.5rem;
 }
 
+#paces-table, #prs-table {
+    background-color: white;
+}
+
 table > thead > tr > th {
     font-size: clamp(0.5rem, 2vw, 1rem);
     border: solid 2px var(--secondary);
@@ -553,12 +546,16 @@ table > tbody > tr > td {
     margin-block: 0.5rem;
     border-radius: 5px;
     padding: 0.5rem 0.2rem;
-    overflow-x: hidden;
+    align-content: center;
+    height: clamp(1rem, 1.5vw, 2rem);
+    overflow: hidden;
 }
 
 .day-header {
-    background-color: var(--primary);
-    color: white;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-weight: bolder;
+    color: black;
 }
 
 .Rest {
@@ -583,6 +580,11 @@ table > tbody > tr > td {
 
 .Race {
     background-color: red;
+    color: white;
+}
+
+.miles {
+    background-color: var(--primary);
     color: white;
 }
 
@@ -650,6 +652,37 @@ td > button {
     transition: 0.3s ease;
 }
 
+#tips-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.help-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    margin-inline: 1rem;
+    height: fit-content;
+    width: 10rem;
+    background-color: var(--tertiary);
+    border-radius: 5px;
+    border: solid 2px black;
+    transition: 0.3s ease;
+}
+
+.help-button:hover {
+    scale: 1.05;
+    cursor: pointer;
+}
+
+#planner-popup {
+    justify-content: center;
+    align-items: center;
+}
+
 .popup {
     position: fixed;
     display: flex;
@@ -674,15 +707,20 @@ td > button {
     cursor: pointer;
 }
 
+#planner-content {
+    align-items: center;
+}
+
 .popup-content {
     position: relative;
     display: flex;
     width: 80vw;
+    max-height: 80vh;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     background-color: var(--tertiary);
     border: 1px solid black;
+    overflow-y: scroll;
+    overflow-x: hidden;
     padding: 2rem;
 }
 
@@ -691,6 +729,21 @@ td > button {
     justify-content: space-around;
     width: 100%;
     margin: 5%;
+}
+
+#dropdown-run, #dropdown-miles {
+    margin-inline: 0.5rem;
+    border-radius: 5px;
+}
+
+#run-container, #mileage-container {
+    display: flex;
+    flex-direction: row;
+}
+
+#notes-container {
+    display: flex;
+    flex-direction: column;
 }
 
 textarea {
