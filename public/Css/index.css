@@ -261,7 +261,7 @@ td > button:hover, #saveResetContainer > input:hover, #pRButton:hover {
     flex: 50 50;
 }
 #subtext > img {
-    width: 50vw
+    width: clamp(13rem, 30vw, 20rem);
 }
 
 #header {
